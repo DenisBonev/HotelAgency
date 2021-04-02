@@ -14,6 +14,7 @@ public class DBInit implements CommandLineRunner {
     public DBInit(UserService userService, UserRoleService userRoleService) {
         this.userService = userService;
         this.userRoleService = userRoleService;
+
     }
 
     @Override
