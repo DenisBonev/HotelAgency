@@ -1,0 +1,73 @@
+
+body, html {
+    background-image: url("https://images.wallpaperscraft.com/image/burj_al_arab_hotel_dubai_uae_sky_sea_59061_3840x2160.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;
+
+        /*filter: blur(8px);*/
+        /*-webkit-filter: blur(8px);*/
+    /*    backdrop-filter: blur(10px);*/
+}
+
+.header-top{
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    z-index: 999;
+    width: 100%; /* Full width */
+
+}
+
+
+
+
+.main{
+    margin-top: 70px; /* Add a top margin to avoid content overlay */
+}
+
+.nowrap {
+    white-space: nowrap ;
+}
+
+
+
+.boxed{
+    border: 1px solid;
+    background: linear-gradient(white,#0c63e4);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+}
+
+.my-card-group{
+    width: 80%;
+}
+
+.my-card{
+    margin: 10px;
+}
+
+
+#carouselExampleControls{
+    height: 500px;
+    width: 700px;
+    margin-left: 50px;
+    margin-right: 30px;
+    border: solid;
+    background-color: black;
+    align-content: center;
+    display: grid;
+}
+
+#containerDetails{
+    padding: 50px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    background: linear-gradient(white,#0d6efd);
+}
+
+
+#description{
+    width: 100%;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/fragments::head"></head>
+<body class="bg">
+<header th:replace="/fragments/fragments::navbar"></header>
+
+<main class="p-5 align-content bg-blur main">
+    <div>
+        <h1 class="text-light border-bottom mb-5">Login</h1>
+        <div class="d-flex justify-content-center">
+            <div class="row g-3 align-items">
+                <div class="alert alert-danger" role="alert" th:if="${notFound}">
+                    This username and password combination does not exist.
+                </div>
+                <form
+                        method="POST" th:action="@{/users/login}">
+                    <!--User name-->
+                    <div>
+                        <div class="col-auto">
+                            <label for="inputEmail" class="col-form-label text-black-50">Email</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text"
+                                   th:value="${username}"
+                                   name="email"
+                                   id="inputEmail"
+                                   class="form-control"
+                                   aria-describedby="emailHelpInline">
+                        </div>
+                    </div>
+                    <!--EO: User name-->
+
+                    <!-- Password -->
+                    <div class="login-field">
+                        <div class="col-auto">
+                            <label for="inputPassword" class="col-form-label text-black-50">Password</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="password" name="password" id="inputPassword" class="form-control"
+                                   aria-describedby="passwordHelpInline">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-2 login-field">
+                        <button class="btn btn-secondary btn-block w-50" type="submit">Login</button>
+                    </div>
+                    <!-- EO: Password -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="/fragments/fragments::footer" class="footer bg-blur"></footer>
+</body>
+</html>

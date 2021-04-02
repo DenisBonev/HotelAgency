@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: Db08102003
+    url: jdbc:mysql://localhost:3306/hotel_agency?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      enabled: true
+
+cloudinary:
+  cloud-name: dbeukad1v
+  api-key: 454669545666359
+  api-secret: "${CLOUDINARY_SECRET}"

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head th:replace="/fragments/fragments::head"></head>
+<body>
+<header th:replace="/fragments/fragments::navbar"></header>
+
+<main class="p-5 align-content-center bg-blur main">
+    <h1 class="text-light border-bottom mb-5">Add Room</h1>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active disabled">Add room</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body bg-primary">
+            <div class="container">
+                <h2 class="text-center text-white">Add Room</h2>
+                <form th:method="POST" th:action="@{/hotels/add-room/{id}(id=${hotelId})}"
+                      th:object="${roomAddBindingModel}"
+                      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="roomType" class="text-white font-weight-bold">Room Type</label>
+                            <select id="roomType" th:field="*{type}" th:errorclass="is-invalid" class="form-control">
+                                <option selected value="">- Choose room type -</option>
+                                <option th:each="s:${T(bg.softuni.hotelagency.model.entity.enums.RoomTypeEnum).values()}"
+                                        th:value="${s}"
+                                        th:text="${s}"></option>
+                            </select>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Room type is required.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="specialName" class="text-white font-weight-bold">Special name of this
+                                room</label>
+                            <input id="specialName" th:field="*{name}" th:errorclass="is-invalid" type="text"
+                                   class="form-control"
+                                   minlength="3" maxlength="20"
+                                   placeholder="Name"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Name must be between 3 and 20 characters
+                            </p>
+                        </div>
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="price" class="text-white font-weight-bold">Price for this room</label>
+                            <input id="price" th:field="*{price}" th:errorclass="is-invalid" type="number"
+                                   class="form-control"
+                                   min="5" max="1000" step="10"
+                                   placeholder="Price"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Price must be positive.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="singleBedsCount" class="text-white font-weight-bold">Number of single beds in
+                                the room</label>
+                            <input id="singleBedsCount" th:field="*{singleBedsCount}" th:errorclass="is-invalid"
+                                   type="number" min="0" max="20"
+                                   class="form-control"
+                                   placeholder="0-10"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Field should be between 0-10.
+                            </p>
+                        </div>
+
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="doubleBedsCount" class="text-white font-weight-bold">Number of double beds in
+                                the room</label>
+                            <input id="doubleBedsCount" th:field="*{twinBedsCount}" th:errorclass="is-invalid"
+                                   type="number" min="0" max="20"
+                                   class="form-control"
+                                   placeholder="0-10"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Field should be between 0-10.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="roomCount" class="text-white font-weight-bold">Number of rooms of this
+                                type</label>
+                            <input type="number" th:errorclass="is-invalid" th:field="*{count}"
+                                   id="roomCount" name="count" class="form-control" min="1" max="200"
+                                   placeholder="Number of rooms">
+                            <p class="errors alert alert-danger invalid-feedback">
+                                You should have at least one room.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-4">
+                            <div class="button-holder d-flex">
+                                <input type="submit" class="btn btn-info btn-lg" value="Add Room"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer bg-blur" th:replace="/fragments/fragments::footer">
+</footer>
+</body>
+</html>
