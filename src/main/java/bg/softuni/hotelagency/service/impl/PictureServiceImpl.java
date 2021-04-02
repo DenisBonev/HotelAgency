@@ -37,4 +37,9 @@ public class PictureServiceImpl implements PictureService {
             }
         });
     }
+
+    @Override
+    public List<String> getPicturesByHotelId(Long id) {
+        return pictureRepository.getPicturesByHotelId(id);
+    }
 }

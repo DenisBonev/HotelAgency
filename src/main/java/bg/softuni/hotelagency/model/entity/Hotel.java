@@ -13,7 +13,6 @@ public class Hotel extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private String address;
-    @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private StarEnum stars;
     @Column(nullable = false, unique = true)

@@ -7,19 +7,16 @@
 <header th:replace="/fragments/fragments::navbar"></header>
 <main class="main">
     <div id="containerDetails">
-        <div class="row d-inline-flex float-start mb-3">
+        <div class="row d-inline-flex float-start mb-3" th:object="${hotel}">
             <div id="carouselExampleControls" class="carousel slide col-2" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div id="carouselItem" class="carousel-item active">
-                        <img src="https://lh3.googleusercontent.com/proxy/oX2k12IoJDjXiAm2GxwjaNPapvgL8PG0bDvqbWZdNwrXG4MIK74N4l5F_Fc9dDabBbRuNXH4GU3cYT8kFcNNKVzdyS0ZJKIBoQ75Nmn8yzHfKcMihZhphV2Us0mArjwYkvJIWdh6GXAk-_3oZGobmQwT"
+                    <div class="carousel-item active">
+                        <img th:src="@{*{mainPictureUrl}}"
                              class="d-block w-100" alt="...">
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://cache.marriott.com/marriottassets/marriott/SOFLC/soflc-exrterior-0059-hor-feat.jpg"
+                    <div th:each="p:*{pictureUrls}" class="carousel-item ">
+                        <img th:src="@{${p}}"
                              class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -34,20 +31,20 @@
                 </button>
             </div>
             <div id="description" class="col">
-                <p class="h1 fst-italic fw-bold">Title</p>
+                <p class="h1 fst-italic fw-bold" th:text="*{name}">Title</p>
                 <dl class="d-block">
                     <dt class="col-sm-3">Stars</dt>
-                    <dd class="col-sm-9">.....</dd>
+                    <dd class="col-sm-9" th:text="*{stars}">.....</dd>
 
                     <dt class="col-sm-3">Address</dt>
-                    <dd class="col-sm-9">................
+                    <dd class="col-sm-9" th:text="*{address}">................
                     </dd>
 
                     <dt class="col-sm-3">Email</dt>
-                    <dd class="col-sm-9">.....@abv.bg</dd>
+                    <dd class="col-sm-9" th:text="*{email}">.....@abv.bg</dd>
 
                     <dt class="col-sm-3">Description</dt>
-                    <dd class="col-sm-9">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
+                    <dd class="col-sm-9" th:text="*{description}">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
                 </dl>
                 <div>
 <!--                    TODO:Add room and Edit details buttons for hotel owner-->

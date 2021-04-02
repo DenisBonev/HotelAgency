@@ -11,27 +11,26 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class RoomAddBindingModel {
-    @NotNull
+    @NotNull(message = "Field cannot be blank")
     private RoomTypeEnum type;
     @Min(1)
     @Max(200)
-    @NotNull
+    @NotNull(message = "Field cannot be blank")
     private Integer count;
     @Min(0)
     @Max(20)
-    @NotNull
+    @NotNull(message = "Field cannot be blank")
     private Integer singleBedsCount;
     @Min(0)
     @Max(20)
-    @NotNull
-    //todo:check null/empty/blank
+    @NotNull(message = "Field cannot be blank")
     private Integer twinBedsCount;
     @Min(5)
     @Max(1000)
-    @NotNull
+    @NotNull(message = "Field cannot be blank")
     private BigDecimal price;
-    @Length(min = 3, max = 20)
-    @NotEmpty
+    @Size(min = 3, max = 20,message = "Length must be between 3 and 20 characters")
+    @NotBlank(message = "Field cannot be blank")
     private String name;
 
     public RoomAddBindingModel() {

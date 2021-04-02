@@ -6,6 +6,7 @@ import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 import bg.softuni.hotelagency.model.service.HotelServiceModel;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;
+import bg.softuni.hotelagency.model.view.HotelDetailsViewModel;
 import bg.softuni.hotelagency.service.HotelService;
 import bg.softuni.hotelagency.service.PictureService;
 import bg.softuni.hotelagency.service.RoomService;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/hotels")
@@ -105,8 +107,13 @@ public class HotelController {
 
 
     @GetMapping("/details/{id}")
-    public String getDetails(@PathVariable Long id) {
-        //TODO:visualise details (POST)reserve,edit hotel(owner),add comments
+    public String getDetails(@PathVariable Long id, Model model) {
+        //TODO: (POST)reserve,edit hotel(owner),add comments
+        HotelDetailsViewModel hotelDetailsViewModel = modelMapper.map(hotelService.getHotelById(id), HotelDetailsViewModel.class);
+        List<String> pictureUrls = pictureService.getPicturesByHotelId(id);
+        hotelDetailsViewModel.setMainPictureUrl(pictureUrls.remove(0));
+        hotelDetailsViewModel.setPictureUrls(pictureUrls);
+        model.addAttribute("hotel", hotelDetailsViewModel);
         return "hotel-details";
     }
 //TODO:(GLOBAL) validation(front and back end,home and index page)

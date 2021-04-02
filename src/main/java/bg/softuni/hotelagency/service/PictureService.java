@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface PictureService {
     void uploadHotelImages(List<MultipartFile> pictures, Hotel hotel);
+
+    List<String> getPicturesByHotelId(Long id);
 }

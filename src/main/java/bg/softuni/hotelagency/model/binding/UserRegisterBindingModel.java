@@ -1,6 +1,7 @@
 package bg.softuni.hotelagency.model.binding;
 
 import bg.softuni.hotelagency.model.validation.FieldsMatch;
+import bg.softuni.hotelagency.model.validation.IsAdult;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,17 +11,18 @@ import java.time.LocalDate;
 @FieldsMatch(first = "password", second = "confirmPassword", message = "Passwords should match")
 public class UserRegisterBindingModel {
     @NotEmpty(message = "Field must be filled")
-    @Size(min = 2,max = 20,message = "Length must be between 2 and 20 characters")
+    @Size(min = 2, max = 20, message = "Length must be between 2 and 20 characters")
     private String firstName;
     @NotEmpty(message = "Field must be filled")
-    @Size(min = 2,max = 20,message = "Length must be between 2 and 20 characters")
+    @Size(min = 2, max = 20, message = "Length must be between 2 and 20 characters")
     private String lastName;
     @NotEmpty(message = "Field must be filled")
     @Email
-    //TODO:regex pattern
+    //TODO:regex pattern(one more in hotel)
     private String email;
     @Past
     //TODO:18 years old annotation
+    @IsAdult
     @NotNull(message = "Date must be chosen")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
@@ -28,10 +30,10 @@ public class UserRegisterBindingModel {
     @Pattern(regexp = "\\+*[0-9]{10,12}")
     private String phoneNumber;
     @NotEmpty(message = "Field must be filled")
-    @Size(min = 5,max = 20,message = "Length must be between 2 and 20 characters")
+    @Size(min = 5, max = 20, message = "Length must be between 2 and 20 characters")
     private String password;
     @NotEmpty(message = "Field must be filled")
-    @Size(min = 5,max = 20,message = "Length must be between 2 and 20 characters")
+    @Size(min = 5, max = 20, message = "Length must be between 2 and 20 characters")
     private String confirmPassword;
     private MultipartFile profilePicture;
     private boolean hotelOwner;

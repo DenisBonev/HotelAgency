@@ -4,7 +4,6 @@ import bg.softuni.hotelagency.model.entity.Picture;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 
-import java.util.List;
 
 public class HotelServiceModel {
     private String name;
