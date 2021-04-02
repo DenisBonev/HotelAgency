@@ -1,16 +1,15 @@
 package bg.softuni.hotelagency.web;
 
 import bg.softuni.hotelagency.model.binding.HotelCreateBindingModel;
+import bg.softuni.hotelagency.model.binding.ReservationCreateBindingModel;
 import bg.softuni.hotelagency.model.binding.RoomAddBindingModel;
 import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 import bg.softuni.hotelagency.model.service.HotelServiceModel;
+import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;
 import bg.softuni.hotelagency.model.view.HotelDetailsViewModel;
-import bg.softuni.hotelagency.service.HotelService;
-import bg.softuni.hotelagency.service.PictureService;
-import bg.softuni.hotelagency.service.RoomService;
-import bg.softuni.hotelagency.service.UserService;
+import bg.softuni.hotelagency.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,13 +32,15 @@ public class HotelController {
     private final PictureService pictureService;
     private final RoomService roomService;
     private final UserService userService;
+    private final ReservationService reservationService;
 
-    public HotelController(ModelMapper modelMapper, HotelService hotelService, PictureService pictureService, RoomService roomService, UserService userService) {
+    public HotelController(ModelMapper modelMapper, HotelService hotelService, PictureService pictureService, RoomService roomService, UserService userService, ReservationService reservationService) {
         this.modelMapper = modelMapper;
         this.hotelService = hotelService;
         this.pictureService = pictureService;
         this.roomService = roomService;
         this.userService = userService;
+        this.reservationService = reservationService;
     }
 
     @ModelAttribute("hotelCreateBindingModel")
@@ -50,6 +51,11 @@ public class HotelController {
     @ModelAttribute("roomAddBindingModel")
     public RoomAddBindingModel roomAddBindingModel() {
         return new RoomAddBindingModel();
+    }
+
+    @ModelAttribute("ReservationCreateBindingModel")
+    public ReservationCreateBindingModel reservationCreateBindingModel() {
+        return new ReservationCreateBindingModel();
     }
 
 
@@ -107,15 +113,37 @@ public class HotelController {
 
 
     @GetMapping("/details/{id}")
-    public String getDetails(@PathVariable Long id, Model model) {
+    public String detailsGet(@PathVariable Long id, Model model) {
         //TODO: (POST)reserve,edit hotel(owner),add comments
         HotelDetailsViewModel hotelDetailsViewModel = modelMapper.map(hotelService.getHotelById(id), HotelDetailsViewModel.class);
         List<String> pictureUrls = pictureService.getPicturesByHotelId(id);
         hotelDetailsViewModel.setMainPictureUrl(pictureUrls.remove(0));
         hotelDetailsViewModel.setPictureUrls(pictureUrls);
         model.addAttribute("hotel", hotelDetailsViewModel);
+        model.addAttribute("rooms", roomService.getHotelsRooms(id));
         return "hotel-details";
     }
+
+    @PostMapping("/reserve/{id}")
+    public String reservePost(ReservationCreateBindingModel reservationCreateBindingModel,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes,
+                              @PathVariable String id,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("reservationCreateBindingModel", reservationCreateBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.reservationCreateBindingModel", bindingResult);
+            return "redirect:/hotels/reserve/" + id;
+        }
+        ReservationServiceModel reservationServiceModel =
+                modelMapper.map(reservationCreateBindingModel, ReservationServiceModel.class).
+                        setUser(userService.getUserByEmail(userDetails.getUsername()));
+        reservationService.addReservation(reservationServiceModel);
+
+        //TODO make template V
+return "redirect:/users/reservations";
+    }
+
 //TODO:(GLOBAL) validation(front and back end,home and index page)
 
     private void setStarEnum(HotelCreateBindingModel hotelCreateBindingModel, HotelServiceModel hotelServiceModel) {

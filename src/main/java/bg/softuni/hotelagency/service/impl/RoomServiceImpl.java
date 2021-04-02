@@ -7,6 +7,9 @@ import bg.softuni.hotelagency.service.RoomService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RoomServiceImpl implements RoomService {
 
@@ -22,5 +25,16 @@ public class RoomServiceImpl implements RoomService {
     public Room createRoom(RoomServiceModel roomServiceModel) {
         return roomRepository.save(modelMapper.map(roomServiceModel, Room.class));
 
+    }
+
+    @Override
+    public List<Room> getHotelsRooms(Long hotelId) {
+        return roomRepository.getRoomsByHotelIdOrderByPrice(hotelId);
+
+    }
+
+    @Override
+    public Integer getRoomsCountByRoom(Room room) {
+        return roomRepository.getRoomsCountByRoom(room);
     }
 }

@@ -44,17 +44,21 @@
                     <dd class="col-sm-9" th:text="*{email}">.....@abv.bg</dd>
 
                     <dt class="col-sm-3">Description</dt>
-                    <dd class="col-sm-9" th:text="*{description}">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
+                    <dd class="col-sm-9" th:text="*{description}">This can be useful when space is tight. Adds an
+                        ellipsis at the end.
+                    </dd>
                 </dl>
                 <div>
-<!--                    TODO:Add room and Edit details buttons for hotel owner-->
+                    <!--                    TODO:Add room and Edit details buttons for hotel owner-->
                     <form>
                         <div class="row">
                             <div class="form-group col-md-10 mb-3">
                                 <label for="roomType" class="text-white font-weight-bold">Room Type</label>
                                 <select id="roomType" class="form-control">
                                     <option value=""> -Select room type-</option>
-                                    <option value=""></option>
+                                    <option th:each="r:${rooms}"
+                                            th:text="|${r.type}(${r.name}, ${r.price}EUR Single beds:${r.singleBedsCount}, Twin beds:${r.twinBedsCount})|"
+                                            th:value="${r}"></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-2 mb-3">
@@ -93,20 +97,34 @@
                     </div>
                     <div class="card p-3">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">james_olesenn</small> <small class="font-weight-bold">Hmm, This poster looks cool</small></span> </div> <small>2 days ago</small>
+                            <div class="user d-flex flex-row align-items-center"><img
+                                    src="https://i.imgur.com/hczKIze.jpg" width="30"
+                                    class="user-img rounded-circle mr-2"> <span><small
+                                    class="font-weight-bold text-primary">james_olesenn</small> <small
+                                    class="font-weight-bold">Hmm, This poster looks cool</small></span></div>
+                            <small>2 days ago</small>
                         </div>
                         <div class="action d-flex justify-content-between mt-2 align-items-center">
-                            <div class="reply px-4"> <small>Remove</small> <span class="dots"></span> <small>Reply</small> <span class="dots"></span> <small>Translate</small> </div>
-                            <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                            <div class="reply px-4"><small>Remove</small> <span class="dots"></span>
+                                <small>Reply</small> <span class="dots"></span> <small>Translate</small></div>
+                            <div class="icons align-items-center"><i class="fa fa-star text-warning"></i> <i
+                                    class="fa fa-check-circle-o check-icon"></i></div>
                         </div>
                     </div>
                     <div class="card p-3 mt-2">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">olan_sams</small> <small class="font-weight-bold">Loving your work and profile! </small></span> </div> <small>3 days ago</small>
+                            <div class="user d-flex flex-row align-items-center"><img
+                                    src="https://i.imgur.com/C4egmYM.jpg" width="30"
+                                    class="user-img rounded-circle mr-2"> <span><small
+                                    class="font-weight-bold text-primary">olan_sams</small> <small
+                                    class="font-weight-bold">Loving your work and profile! </small></span></div>
+                            <small>3 days ago</small>
                         </div>
                         <div class="action d-flex justify-content-between mt-2 align-items-center">
-                            <div class="reply px-4"> <small>Remove</small> <span class="dots"></span> <small>Reply</small> <span class="dots"></span> <small>Translate</small> </div>
-                            <div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i> </div>
+                            <div class="reply px-4"><small>Remove</small> <span class="dots"></span>
+                                <small>Reply</small> <span class="dots"></span> <small>Translate</small></div>
+                            <div class="icons align-items-center"><i
+                                    class="fa fa-check-circle-o check-icon text-primary"></i></div>
                         </div>
                     </div>
 

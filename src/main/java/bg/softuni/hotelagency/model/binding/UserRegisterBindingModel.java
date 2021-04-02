@@ -21,7 +21,6 @@ public class UserRegisterBindingModel {
     //TODO:regex pattern(one more in hotel)
     private String email;
     @Past
-    //TODO:18 years old annotation
     @IsAdult
     @NotNull(message = "Date must be chosen")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
