@@ -24,17 +24,18 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void addReservation(ReservationServiceModel reservationServiceModel) {
+    public Reservation addReservation(ReservationServiceModel reservationServiceModel) {
         LocalDate currDate = reservationServiceModel.getArriveDate();
         while (currDate.isBefore(reservationServiceModel.getLeaveDate()) || currDate.isEqual(reservationServiceModel.getLeaveDate())) {
             Integer reservedRoomsCount = reservationRepository.getReservedRoomsCountAtDate(currDate, reservationServiceModel.getRoom());
             Integer roomAllCount = roomService.getRoomsCountByRoom(reservationServiceModel.getRoom());
             if (roomAllCount-(reservedRoomsCount+reservationServiceModel.getCountOfRooms())<0){
-                throw new IllegalStateException("rooms not enogh");
-                //TODO:optimize free rooms check(via JPA) and return appropriate message
+                return null;
+                //TODO:Optimize check for free rooms
             }
+            currDate=currDate.plusDays(1);
         }
-        reservationRepository.
+        return reservationRepository.
                 save(modelMapper.map(reservationServiceModel, Reservation.class));
     }
 }

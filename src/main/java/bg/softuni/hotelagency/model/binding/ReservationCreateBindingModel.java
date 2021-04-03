@@ -1,6 +1,7 @@
 package bg.softuni.hotelagency.model.binding;
 
 import bg.softuni.hotelagency.model.entity.Room;
+import bg.softuni.hotelagency.model.validation.ReservationDates;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
+@ReservationDates(first = "arriveDate",second = "leaveDate")
 public class ReservationCreateBindingModel {
     @NotNull(message = "Date must be chosen")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -22,7 +24,7 @@ public class ReservationCreateBindingModel {
     @NotNull
     private Integer countOfRooms;
     @NotNull
-    private Room room;
+    private Long room;
 
     public ReservationCreateBindingModel() {
     }
@@ -54,11 +56,11 @@ public class ReservationCreateBindingModel {
         return this;
     }
 
-    public Room getRoom() {
+    public Long getRoom() {
         return room;
     }
 
-    public ReservationCreateBindingModel setRoom(Room room) {
+    public ReservationCreateBindingModel setRoom(Long room) {
         this.room = room;
         return this;
     }

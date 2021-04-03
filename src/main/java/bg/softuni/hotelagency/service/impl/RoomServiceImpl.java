@@ -1,6 +1,7 @@
 package bg.softuni.hotelagency.service.impl;
 
 import bg.softuni.hotelagency.model.entity.Room;
+import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;
 import bg.softuni.hotelagency.repository.RoomRepository;
 import bg.softuni.hotelagency.service.RoomService;
@@ -36,5 +37,11 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Integer getRoomsCountByRoom(Room room) {
         return roomRepository.getRoomsCountByRoom(room);
+    }
+
+    @Override
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Room"));
     }
 }

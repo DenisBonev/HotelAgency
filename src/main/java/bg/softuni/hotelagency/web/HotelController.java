@@ -4,6 +4,7 @@ import bg.softuni.hotelagency.model.binding.HotelCreateBindingModel;
 import bg.softuni.hotelagency.model.binding.ReservationCreateBindingModel;
 import bg.softuni.hotelagency.model.binding.RoomAddBindingModel;
 import bg.softuni.hotelagency.model.entity.Hotel;
+import bg.softuni.hotelagency.model.entity.Reservation;
 import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 import bg.softuni.hotelagency.model.service.HotelServiceModel;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
@@ -53,7 +54,7 @@ public class HotelController {
         return new RoomAddBindingModel();
     }
 
-    @ModelAttribute("ReservationCreateBindingModel")
+    @ModelAttribute("reservationCreateBindingModel")
     public ReservationCreateBindingModel reservationCreateBindingModel() {
         return new ReservationCreateBindingModel();
     }
@@ -119,13 +120,16 @@ public class HotelController {
         List<String> pictureUrls = pictureService.getPicturesByHotelId(id);
         hotelDetailsViewModel.setMainPictureUrl(pictureUrls.remove(0));
         hotelDetailsViewModel.setPictureUrls(pictureUrls);
+        if (!model.containsAttribute("noRooms")) {
+            model.addAttribute("noRooms", false);
+        }
         model.addAttribute("hotel", hotelDetailsViewModel);
         model.addAttribute("rooms", roomService.getHotelsRooms(id));
         return "hotel-details";
     }
 
     @PostMapping("/reserve/{id}")
-    public String reservePost(ReservationCreateBindingModel reservationCreateBindingModel,
+    public String reservePost(@Valid ReservationCreateBindingModel reservationCreateBindingModel,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes,
                               @PathVariable String id,
@@ -133,15 +137,21 @@ public class HotelController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("reservationCreateBindingModel", reservationCreateBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.reservationCreateBindingModel", bindingResult);
-            return "redirect:/hotels/reserve/" + id;
+            return "redirect:/hotels/details/" + id;
         }
         ReservationServiceModel reservationServiceModel =
                 modelMapper.map(reservationCreateBindingModel, ReservationServiceModel.class).
-                        setUser(userService.getUserByEmail(userDetails.getUsername()));
-        reservationService.addReservation(reservationServiceModel);
+                        setUser(userService.getUserByEmail(userDetails.getUsername()))
+                        .setRoom(roomService.getRoomById(reservationCreateBindingModel.getRoom()));
+        Reservation reservation = reservationService.addReservation(reservationServiceModel);
+        if (reservation == null) {
+            redirectAttributes.addFlashAttribute("reservationCreateBindingModel", reservationCreateBindingModel);
+            redirectAttributes.addFlashAttribute("noRooms", true);
+            return "redirect:/hotels/details/" + id;
+        }
 
         //TODO make template V
-return "redirect:/users/reservations";
+        return "redirect:/users/reservations";
     }
 
 //TODO:(GLOBAL) validation(front and back end,home and index page)

@@ -11,4 +11,6 @@ public interface RoomService {
     List<Room> getHotelsRooms(Long hotelId);
 
     Integer getRoomsCountByRoom(Room room);
+
+    Room getRoomById(Long id);
 }

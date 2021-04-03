@@ -10,6 +10,6 @@ import java.time.LocalDate;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
-    @Query("SELECT SUM(r.countOfRooms) FROM Reservation r WHERE ?1 BETWEEN r.arriveDate AND r.leaveDate AND r.room=?2")
+    @Query("SELECT COALESCE(SUM(r.countOfRooms),0) FROM Reservation r WHERE ?1 BETWEEN r.arriveDate AND r.leaveDate AND r.room=?2")
     Integer getReservedRoomsCountAtDate(LocalDate date, Room room);
 }
