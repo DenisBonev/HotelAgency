@@ -5,8 +5,9 @@ import bg.softuni.hotelagency.service.PictureService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
-@CrossOrigin
 public class PictureRestController {
     private final PictureService pictureService;
 
@@ -14,11 +15,9 @@ public class PictureRestController {
         this.pictureService = pictureService;
     }
 
-    @PostMapping("/picture/delete")
-    public ResponseEntity<Picture> deletePicture(@RequestBody String url){
-        System.out.println();
-        //TODO:complete deleting picture process.
-        //pictureService.getPictureByUrl(url);
-        return null;
+    @DeleteMapping("/picture/delete")
+    public ResponseEntity<Picture> deletePicture(@RequestBody String url) throws IOException {
+        pictureService.deleteByUrl(url);
+        return ResponseEntity.status(204).build();
     }
 }

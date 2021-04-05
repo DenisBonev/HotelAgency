@@ -9,4 +9,6 @@ public interface PictureService {
     void uploadHotelImages(List<MultipartFile> pictures, Long hotelId);
 
     List<String> getPicturesByHotelId(Long id);
+
+    void deleteByUrl(String url) throws IOException;
 }

@@ -128,6 +128,20 @@
 </main>
 <footer class="footer bg-blur" th:replace="/fragments/fragments::footer">
 </footer>
-<script src="/js/image-remove.js"></script>
+<script>
+    document.querySelectorAll("#removeBtn").forEach(e => e.addEventListener('click', removeImage));
+
+    function removeImage(e) {
+        fetch('http://localhost:8080/picture/delete',
+            {
+                method: 'delete',
+                body:e.target.parentElement.parentElement.children.item(0).getAttribute('src')
+
+            }).then(res => {
+                console.log(res);
+            e.target.parentElement.parentElement.remove();
+        });
+    }
+</script>
 </body>
 </html>

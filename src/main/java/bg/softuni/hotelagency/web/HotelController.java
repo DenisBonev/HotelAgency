@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -193,7 +194,7 @@ public class HotelController {
         HotelServiceModel hotelServiceModel = modelMapper.map(hotelEditBindingModel, HotelServiceModel.class).
                 setId(id);
         setStarEnum(hotelEditBindingModel.getStars(), hotelServiceModel);
-        if (!hotelEditBindingModel.getPictures().isEmpty()) {
+        if (!Objects.equals(hotelEditBindingModel.getPictures().get(0).getOriginalFilename(), "")) {
             pictureService.uploadHotelImages(hotelEditBindingModel.getPictures(), id);
         }
         hotelService.saveChanges(hotelServiceModel);

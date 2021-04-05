@@ -2,6 +2,7 @@ package bg.softuni.hotelagency.service.impl;
 
 import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.entity.Picture;
+import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
 import bg.softuni.hotelagency.repository.PictureRepository;
 import bg.softuni.hotelagency.service.CloudinaryService;
 import bg.softuni.hotelagency.service.HotelService;
@@ -44,4 +45,12 @@ public class PictureServiceImpl implements PictureService {
     public List<String> getPicturesByHotelId(Long id) {
         return pictureRepository.getPicturesByHotelId(id);
     }
+
+    @Override
+    public void deleteByUrl(String url) throws IOException {
+        cloudinaryService.deleteByUrl(url);
+        pictureRepository.delete(pictureRepository.findPictureByUrl(url).
+                orElseThrow(()->new EntityNotFoundException("Picture")));
+    }
+
 }
