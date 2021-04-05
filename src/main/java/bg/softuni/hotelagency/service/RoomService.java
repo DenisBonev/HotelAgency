@@ -8,7 +8,7 @@ import java.util.List;
 public interface RoomService {
     Room createRoom(RoomServiceModel map);
 
-    List<Room> getHotelsRooms(Long hotelId);
+    List<RoomServiceModel> getHotelsRooms(Long hotelId);
 
     Integer getRoomsCountByRoom(Room room);
 

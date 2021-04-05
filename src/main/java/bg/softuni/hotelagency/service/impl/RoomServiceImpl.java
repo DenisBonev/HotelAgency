@@ -29,8 +29,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getHotelsRooms(Long hotelId) {
-        return roomRepository.getRoomsByHotelIdOrderByPrice(hotelId);
+    public List<RoomServiceModel> getHotelsRooms(Long hotelId) {
+        return roomRepository.getRoomsByHotelIdOrderByPrice(hotelId).
+                stream().
+                map(r -> modelMapper.map(r, RoomServiceModel.class)).
+                collect(Collectors.toList());
 
     }
 

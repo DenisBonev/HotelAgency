@@ -5,7 +5,9 @@ import bg.softuni.hotelagency.model.entity.Room;
 import bg.softuni.hotelagency.model.service.HotelServiceModel;
 
 public interface HotelService {
-    Hotel createHotel(HotelServiceModel hotelServiceModel);
+    Long createHotel(HotelServiceModel hotelServiceModel);
 
     Hotel getHotelById(Long id);
+
+    void saveChanges(HotelServiceModel hotelServiceModel);
 }

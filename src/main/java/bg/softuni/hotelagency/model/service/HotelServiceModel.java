@@ -6,6 +6,7 @@ import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 
 
 public class HotelServiceModel {
+    private Long id;
     private String name;
     private String address;
     private StarEnum stars;
@@ -14,6 +15,15 @@ public class HotelServiceModel {
     private User owner;
 
     public HotelServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public HotelServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getDescription() {

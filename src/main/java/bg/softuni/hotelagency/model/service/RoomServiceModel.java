@@ -6,6 +6,7 @@ import bg.softuni.hotelagency.model.entity.enums.RoomTypeEnum;
 import java.math.BigDecimal;
 
 public class RoomServiceModel {
+    private Long id;
     private RoomTypeEnum type;
     private Integer count;
     private Integer singleBedsCount;
@@ -15,6 +16,15 @@ public class RoomServiceModel {
     private Hotel hotel;
 
     public RoomServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public RoomServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public RoomTypeEnum getType() {

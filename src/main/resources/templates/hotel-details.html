@@ -7,14 +7,14 @@
 <header th:replace="/fragments/fragments::navbar"></header>
 <main class="main">
     <div id="containerDetails">
-        <div class="row d-inline-flex float-start mb-3" th:object="${hotel}">
+        <div class="row d-inline-flex float-start mb-3">
             <div id="carouselExampleControls" class="carousel slide col-2" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img th:src="@{*{mainPictureUrl}}"
+                        <img th:src="@{${hotel.mainPictureUrl}}"
                              class="d-block w-100" alt="...">
                     </div>
-                    <div th:each="p:*{pictureUrls}" class="carousel-item ">
+                    <div th:each="p:${hotel.pictureUrls}" class="carousel-item ">
                         <img th:src="@{${p}}"
                              class="d-block w-100" alt="...">
                     </div>
@@ -31,26 +31,32 @@
                 </button>
             </div>
             <div id="description" class="col">
-                <p class="h1 fst-italic fw-bold" th:text="*{name}">Title</p>
+                <p class="h1 fst-italic fw-bold" th:text="${hotel.name}">Title</p>
                 <dl class="d-block">
                     <dt class="col-sm-3">Stars</dt>
-                    <dd class="col-sm-9" th:text="*{stars}">.....</dd>
+                    <dd class="col-sm-9" th:text="${hotel.stars}">.....</dd>
 
                     <dt class="col-sm-3">Address</dt>
-                    <dd class="col-sm-9" th:text="*{address}">................
+                    <dd class="col-sm-9" th:text="${hotel.address}">................
                     </dd>
 
                     <dt class="col-sm-3">Email</dt>
-                    <dd class="col-sm-9" th:text="*{email}">.....@abv.bg</dd>
+                    <dd class="col-sm-9" th:text="${hotel.email}">.....@abv.bg</dd>
 
                     <dt class="col-sm-3">Description</dt>
-                    <dd class="col-sm-9" th:text="*{description}">This can be useful when space is tight. Adds an
+                    <dd class="col-sm-9" th:text="${hotel.description}">This can be useful when space is tight. Adds an
                         ellipsis at the end.
                     </dd>
                 </dl>
                 <div>
+                    <div th:if="${isOwner}" class="d-grid gap-2 d-md-block">
+                        <a class="btn btn-success fw-bold" th:href="@{/hotels/add-room/{id}(id=${id})}" role="button">Add
+                            Room</a>
+                        <a class="btn btn-warning fw-bold" th:href="@{/hotels/edit/{id}(id=${id})}"
+                           role="button">Edit</a>
+                    </div>
                     <!--                    TODO:Add room and Edit details buttons for hotel owner-->
-                    <form method="POST" th:action="@{/hotels/reserve/{id}(id=${id})}"
+                    <form th:unless="${isOwner}" method="POST" th:action="@{/hotels/reserve/{id}(id=${id})}"
                           th:object="${reservationCreateBindingModel}">
                         <div class="row">
                             <p th:if="${noRooms}" class="errors alert alert-danger">

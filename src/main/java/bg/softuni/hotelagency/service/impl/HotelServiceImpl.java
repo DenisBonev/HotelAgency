@@ -23,14 +23,28 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Hotel createHotel(HotelServiceModel hotelServiceModel) {
-        return hotelRepository.save(modelMapper.map(hotelServiceModel, Hotel.class));
+    public Long createHotel(HotelServiceModel hotelServiceModel) {
+        return hotelRepository.save(modelMapper.map(hotelServiceModel, Hotel.class)).getId();
     }
 
     @Override
     public Hotel getHotelById(Long id) {
         return hotelRepository.findById(id).
-                orElseThrow(()->new EntityNotFoundException("Hotel"));
+                orElseThrow(() -> new EntityNotFoundException("Hotel"));
+    }
+
+    @Override
+    public void saveChanges(HotelServiceModel hotelServiceModel) {
+        Hotel hotel = hotelRepository.findById(hotelServiceModel.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Hotel"));
+        hotel
+                .setName(hotelServiceModel.getName())
+                .setAddress(hotelServiceModel.getAddress())
+                .setEmail(hotelServiceModel.getEmail())
+                .setDescription(hotelServiceModel.getDescription())
+                .setStars(hotelServiceModel.getStars());
+        hotelRepository.save(hotel);
+
     }
 
 }

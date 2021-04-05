@@ -1,6 +1,7 @@
 package bg.softuni.hotelagency.web;
 
 import bg.softuni.hotelagency.model.binding.HotelCreateBindingModel;
+import bg.softuni.hotelagency.model.binding.HotelEditBindingModel;
 import bg.softuni.hotelagency.model.binding.ReservationCreateBindingModel;
 import bg.softuni.hotelagency.model.binding.RoomAddBindingModel;
 import bg.softuni.hotelagency.model.entity.Hotel;
@@ -10,6 +11,8 @@ import bg.softuni.hotelagency.model.service.HotelServiceModel;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;
 import bg.softuni.hotelagency.model.view.HotelDetailsViewModel;
+import bg.softuni.hotelagency.model.view.HotelEditViewModel;
+import bg.softuni.hotelagency.model.view.RoomReserveViewModel;
 import bg.softuni.hotelagency.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/hotels")
@@ -47,6 +51,11 @@ public class HotelController {
     @ModelAttribute("hotelCreateBindingModel")
     public HotelCreateBindingModel hotelCreateBindingModel() {
         return new HotelCreateBindingModel();
+    }
+
+    @ModelAttribute("hotelEditBindingModel")
+    public HotelEditBindingModel hotelEditBindingModel() {
+        return new HotelEditBindingModel();
     }
 
     @ModelAttribute("roomAddBindingModel")
@@ -104,27 +113,34 @@ public class HotelController {
         }
         //TODO:Reduce logic in controller
         HotelServiceModel hotelServiceModel = modelMapper.map(hotelCreateBindingModel, HotelServiceModel.class);
-        setStarEnum(hotelCreateBindingModel, hotelServiceModel);
+        setStarEnum(hotelCreateBindingModel.getStars(), hotelServiceModel);
         hotelServiceModel.setOwner(userService.getUserByEmail(principal.getUsername()));
-        Hotel hotel = hotelService.createHotel(hotelServiceModel);
-        pictureService.uploadHotelImages(hotelCreateBindingModel.getPictures(), hotel);
+        Long hotelId = hotelService.createHotel(hotelServiceModel);
+        pictureService.uploadHotelImages(hotelCreateBindingModel.getPictures(), hotelId);
 
-        return "redirect:/hotels/add-room/" + hotel.getId();
+        return "redirect:/hotels/add-room/" + hotelId;
     }
 
 
     @GetMapping("/details/{id}")
-    public String detailsGet(@PathVariable Long id, Model model) {
-        //TODO: (POST)reserve,edit hotel(owner),add comments
-        HotelDetailsViewModel hotelDetailsViewModel = modelMapper.map(hotelService.getHotelById(id), HotelDetailsViewModel.class);
+    public String detailsGet(@PathVariable Long id,
+                             Model model,
+                             @AuthenticationPrincipal UserDetails userDetails) {
+        //TODO: add comments
+        Hotel hotel = hotelService.getHotelById(id);
+        HotelDetailsViewModel hotelDetailsViewModel = modelMapper.map(hotel, HotelDetailsViewModel.class);
         List<String> pictureUrls = pictureService.getPicturesByHotelId(id);
         hotelDetailsViewModel.setMainPictureUrl(pictureUrls.remove(0));
         hotelDetailsViewModel.setPictureUrls(pictureUrls);
         if (!model.containsAttribute("noRooms")) {
             model.addAttribute("noRooms", false);
         }
+        model.addAttribute("isOwner", userService.getUserByEmail(userDetails.getUsername()).getId().equals(hotel.getOwner().getId()));
         model.addAttribute("hotel", hotelDetailsViewModel);
-        model.addAttribute("rooms", roomService.getHotelsRooms(id));
+        model.addAttribute("rooms", roomService.getHotelsRooms(id).
+                stream().
+                map(r -> modelMapper.map(r, RoomReserveViewModel.class)).
+                collect(Collectors.toList()));
         return "hotel-details";
     }
 
@@ -150,15 +166,45 @@ public class HotelController {
             return "redirect:/hotels/details/" + id;
         }
 
-        //TODO make template V
+        //TODO: make template V
         return "redirect:/users/reservations";
     }
 
-//TODO:(GLOBAL) validation(front and back end,home and index page)
+    @GetMapping("/edit/{id}")
+    public String editHotel(@PathVariable Long id, Model model) {
+        HotelEditViewModel hotelEditViewModel = modelMapper.map(hotelService.getHotelById(id), HotelEditViewModel.class);
+        hotelEditViewModel.setImageUrls(pictureService.getPicturesByHotelId(id));
+        model.addAttribute("hotelData", hotelEditViewModel);
+        return "edit-hotel";
+    }
 
-    private void setStarEnum(HotelCreateBindingModel hotelCreateBindingModel, HotelServiceModel hotelServiceModel) {
+    @PatchMapping("/edit/{id}")
+    public String editHotelPost(@Valid HotelEditBindingModel hotelEditBindingModel,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes,
+                                @PathVariable Long id) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("hotelEditBindingModel", hotelEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hotelEditBindingModel", bindingResult);
+            return "redirect:/hotels/edit/" + id;
+        }
+
+        HotelServiceModel hotelServiceModel = modelMapper.map(hotelEditBindingModel, HotelServiceModel.class).
+                setId(id);
+        setStarEnum(hotelEditBindingModel.getStars(), hotelServiceModel);
+        if (!hotelEditBindingModel.getPictures().isEmpty()) {
+            pictureService.uploadHotelImages(hotelEditBindingModel.getPictures(), id);
+        }
+        hotelService.saveChanges(hotelServiceModel);
+
+        return "redirect:/hotels/details/" + id;
+    }
+
+
+    private void setStarEnum(String bindedStars, HotelServiceModel hotelServiceModel) {
         Arrays.stream(StarEnum.values()).forEach(v -> {
-            if (hotelCreateBindingModel.getStars().equals(v.toString())) {
+            if (bindedStars.equals(v.toString())) {
                 hotelServiceModel.setStars(v);
             }
         });
