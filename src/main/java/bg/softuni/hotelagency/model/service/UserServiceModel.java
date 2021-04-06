@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 public class UserServiceModel {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,6 +16,15 @@ public class UserServiceModel {
     private boolean hotelOwner;
 
     public UserServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public UserServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getFirstName() {

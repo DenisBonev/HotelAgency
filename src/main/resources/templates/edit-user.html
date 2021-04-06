@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/fragments::head"></head>
+<body>
+<header th:replace="/fragments/fragments::navbar"></header>
+
+<main class="p-5 align-content-center bg-blur main">
+    <h1 class="text-light border-bottom mb-5">Edit Profile</h1>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active disabled">Edit Profile</a>
+                </li>
+            </ul>
+        </div>
+        <div id="form-card" class="card-body bg-primary">
+            <div class="container">
+                <h2 class="text-center text-white">Edit Profile</h2>
+                <form th:action="@{/users/edit-profile}" th:method="PATCH" th:object="${userEditBindingModel}"
+                      enctype="multipart/form-data"
+                      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-3">
+                            <label for="firstName" class="text-white font-weight-bold">First Name</label>
+                            <input th:value="${userData.firstName}" name="firstName" th:errorclass="is-invalid"
+                                   id="firstName" type="text" min="2" max="20" class="form-control text-center"
+                                   placeholder="First name"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                First name is required.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-3">
+                            <label for="lastName" class="text-white font-weight-bold">Last Name</label>
+                            <input id="lastName" type="text" name="lastName" th:value="${userData.lastName}"
+                                   th:errorclass="is-invalid" min="2"
+                                   max="20" class="form-control text-center"
+                                   placeholder="Last name"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Last name is required.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-3">
+                            <label for="email" class="text-white font-weight-bold">Email</label>
+                            <input id="email" name="email" type="email" th:value="${userData.email}"
+                                   th:errorclass="is-invalid" min="2"
+                                   max="20" class="form-control text-center"
+                                   placeholder="Email"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Email is required.
+                            </p>
+                            <p class="errors alert alert-danger" th:if="${usernameOccupied}">
+                                Email has already been used.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-3">
+                            <label for="phoneNumber" class="text-white font-weight-bold">Phone Number</label>
+                            <input id="phoneNumber" name="phoneNumber" type="tel" class="form-control text-center"
+                                   th:value="${userData.phoneNumber}"
+                                   th:errorclass="is-invalid"
+                                   placeholder="Phone Number"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Phone Number is required.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="avatar" class="text-white font-weight-bold">Choose new profile picture:</label>
+                            <input type="file" th:field="*{profilePicture}" th:errorclass="is-invalid"
+                                   id="avatar" name="avatar"
+                                   accept="image/png, image/jpeg" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-4">
+                            <div class="button-holder d-flex">
+                                <input type="submit" class="btn btn-info btn-lg" value="Save Changes"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer bg-blur" th:replace="/fragments/fragments::footer"></footer>
+</body>
+</html>

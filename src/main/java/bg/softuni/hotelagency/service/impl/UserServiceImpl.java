@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -84,15 +85,30 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public User getUserByEmail(String username) {
         return userRepository.findUserByEmail(username).
-                orElseThrow(()->new EntityNotFoundException("User"));
+                orElseThrow(() -> new EntityNotFoundException("User"));
     }
 
     @Override
     public List<ReservationServiceModel> getUserReservationsByEmail(String email) {
         return reservationService.getReservationsByUser(getUserByEmail(email));
+    }
+
+    @Override
+    public void updateUser(UserServiceModel userServiceModel) throws IOException {
+        User user = userRepository.findById(userServiceModel.getId()).
+                orElseThrow(() -> new EntityNotFoundException("User"));
+        user.
+                setEmail(userServiceModel.getEmail()).
+                setFirstName(userServiceModel.getFirstName()).
+                setLastName(userServiceModel.getLastName()).
+                setPhoneNumber(userServiceModel.getPhoneNumber());
+        if (!"".equals(userServiceModel.getProfilePicture().getOriginalFilename())) {
+            cloudinaryService.deleteByUrl(user.getProfilePicture());
+            user.setProfilePicture(cloudinaryService.uploadImage(userServiceModel.getProfilePicture()));
+        }
+        userRepository.save(user);
     }
 }

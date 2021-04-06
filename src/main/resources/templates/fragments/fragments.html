@@ -37,35 +37,45 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </div>
-            <div class="collapse navbar-collapse d-inline-flex justify-content-end" id="navbarCollapse">
-                <ul class="navbar-nav row align-items">
-                    <li class="nav-item col-md-4 p-0" sec:authorize="isAuthenticated()">
-                        <a class="nav-link active fw-bold" aria-current="page" href="#">Offers</a>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+                <ul class="navbar-nav row align-items d-inline-flex">
+                    <li class="nav-item m-auto col-md-4" sec:authorize="isAuthenticated()">
+                        <a class="nav-link active" aria-current="page" href="#">Offers</a>
                     </li>
-                    <li class="nav-item col-md-4 p-0" sec:authorize="hasRole('HOTEL_OWNER')">
+                    <li class="nav-item m-auto col-md-4" sec:authorize="hasRole('HOTEL_OWNER')">
                         <a class="nav-link active" href="/hotels/create">Add&nbsp;Offer</a>
                     </li>
-                    <li class="nav-item col-md-4 bg-primary border-0" sec:authorize="isAuthenticated()">
-                        <form class="bg-primary border-0" th:action="@{/users/logout}" method="post">
-                        <button type="submit" class="nav-link bg-primary text-white active border-0">Logout</button>
-                        </form>
+                    <li class="nav-item col-md-4 m-auto " sec:authorize="!isAuthenticated()">
+                        <a class="nav-link active " href="/users/register">Register</a>
                     </li>
-<!--                    <li class="nav-item dropdown col-md-4 p-0">-->
-<!--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                            Dropdown-->
-<!--                        </a>-->
-<!--                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                            <a class="dropdown-item" href="#">Action</a>-->
-<!--                            <a class="dropdown-item" href="#">Another action</a>-->
-<!--                            <div class="dropdown-divider"></div>-->
-<!--                            <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                        </div>-->
-<!--                    </li>-->
-                    <li class="nav-item mr-auto col-md-4" sec:authorize="!isAuthenticated()">
+                    <li class="nav-item col-md-4 m-auto" sec:authorize="!isAuthenticated()">
                         <a class="nav-link active " href="/users/login">Login</a>
                     </li>
-                    <li class="nav-item mr-auto col-md-4" sec:authorize="!isAuthenticated()">
-                        <a class="nav-link active " href="/users/register">Register</a>
+                    <li sec:authorize="isAuthenticated()" class="nav-item mr-auto col-md-4 dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"
+                                 class="avatar">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/users/edit-profile">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="/users/reservations">Reservations</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">User Management</a></li>
+                            <li><a class="dropdown-item" href="#">Statistics</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li class="dropdown-item" sec:authorize="isAuthenticated()">
+                                <form th:action="@{/users/logout}" method="post">
+                                    <button type="submit" class="active border-0 bg-white">
+                                        Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

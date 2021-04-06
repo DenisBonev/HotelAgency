@@ -1,8 +1,10 @@
 package bg.softuni.hotelagency.web;
 
+import bg.softuni.hotelagency.model.binding.UserEditBindingModel;
 import bg.softuni.hotelagency.model.binding.UserRegisterBindingModel;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
 import bg.softuni.hotelagency.model.view.ReservationTableViewModel;
+import bg.softuni.hotelagency.model.view.UserEditViewModel;
 import bg.softuni.hotelagency.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,10 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -36,6 +35,11 @@ public class UserController {
     @ModelAttribute("userRegisterBindingModel")
     public UserRegisterBindingModel userRegisterBindingModel() {
         return new UserRegisterBindingModel();
+    }
+
+    @ModelAttribute("userEditBindingModel")
+    public UserEditBindingModel userEditBindingModel() {
+        return new UserEditBindingModel();
     }
 
     @GetMapping("/register")
@@ -89,5 +93,36 @@ public class UserController {
         }).collect(Collectors.toList());
         model.addAttribute("reservations", reservations);
         return "user-reservations";
+    }
+
+    @GetMapping("/edit-profile")
+    public String editProfile(Model model,
+                              @AuthenticationPrincipal UserDetails principal) {
+        if (!model.containsAttribute("usernameOccupied")) {
+            model.addAttribute("usernameOccupied", false);
+        }
+        model.addAttribute("userData", modelMapper.map(userService.getUserByEmail(principal.getUsername()), UserEditViewModel.class));
+        return "edit-user";
+    }
+
+    @PatchMapping("/edit-profile")
+    public String editProfilePatch(@Valid UserEditBindingModel userEditBindingModel,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes,
+                                   @AuthenticationPrincipal UserDetails principal) throws IOException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userEditBindingModel", bindingResult);
+            return "redirect:edit-profile";
+        }
+        if (!principal.getUsername().equals(userEditBindingModel.getEmail()) && userService.usernameExists(userEditBindingModel.getEmail())) {
+            redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
+            redirectAttributes.addFlashAttribute("usernameOccupied", true);
+            return "redirect:edit-profile";
+        }
+        UserServiceModel userServiceModel = modelMapper.map(userEditBindingModel, UserServiceModel.class);
+        userServiceModel.setId(userService.getUserByEmail(principal.getUsername()).getId());
+        userService.updateUser(userServiceModel);
+        return "redirect:/home";
     }
 }
