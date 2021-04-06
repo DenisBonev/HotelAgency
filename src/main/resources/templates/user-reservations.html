@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/fragments::head"></head>
+<body>
+<header th:replace="/fragments/fragments::navbar"></header>
+<main class="main p-5 align-content-center bg-blur">
+    <h1 class="text-light border-bottom mb-5">Your Reservations</h1>
+    <div class="container">
+        <table class="table table-light border-3 table-striped">
+            <thead>
+            <tr class="table-dark">
+                <th scope="col">Id</th>
+                <th scope="col">Hotel</th>
+                <th scope="col">Arrive Date</th>
+                <th scope="col">Leave Date</th>
+                <th scope="col">Rooms</th>
+                <th scope="col">Cancel</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r:${reservations}">
+                <th scope="row" th:text="${r.id}"></th>
+                <td><a class="text-dark" th:href="@{/hotels/details/{id}(id=${r.hotel.id})}"
+                       th:text="${r.hotel.name}"></a></td>
+                <td th:text="${#temporals.format(r.arriveDate,'dd-MM-yyyy')}"></td>
+                <td th:text="${#temporals.format(r.leaveDate,'dd-MM-yyyy')}"></td>
+                <td th:text="|${r.room.type}(${r.room.name})x${r.countOfRooms}|"></td>
+                <td>
+                    <button class="btn-danger rounded-2">Cancel</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="/fragments/fragments::footer"></footer>
+<!--<script>-->
+<!--    document.querySelectorAll('button').forEach(b => b.addEventListener('click', cancelReservation));-->
+
+<!--    function cancelReservation(e) {-->
+<!--        fetch('http://localhost:8080/reservations/delete',-->
+<!--            {-->
+<!--                method: 'delete',-->
+<!--                body: e.target.id-->
+
+<!--            }).then(res => {-->
+<!--            console.log(res);-->
+<!--            e.target.parentElement.parentElement.remove();-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>

@@ -1,20 +1,20 @@
 package bg.softuni.hotelagency.service.impl;
 
-import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
+import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
 import bg.softuni.hotelagency.repository.UserRepository;
 import bg.softuni.hotelagency.repository.UserRoleRepository;
 import bg.softuni.hotelagency.service.CloudinaryService;
+import bg.softuni.hotelagency.service.ReservationService;
 import bg.softuni.hotelagency.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,13 +25,15 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
+    private final ReservationService reservationService;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, CloudinaryService cloudinaryService, ModelMapper modelMapper, ReservationService reservationService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
+        this.reservationService = reservationService;
     }
 
     @Override
@@ -87,5 +89,10 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String username) {
         return userRepository.findUserByEmail(username).
                 orElseThrow(()->new EntityNotFoundException("User"));
+    }
+
+    @Override
+    public List<ReservationServiceModel> getUserReservationsByEmail(String email) {
+        return reservationService.getReservationsByUser(getUserByEmail(email));
     }
 }

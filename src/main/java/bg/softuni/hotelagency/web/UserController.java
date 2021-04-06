@@ -2,8 +2,11 @@ package bg.softuni.hotelagency.web;
 
 import bg.softuni.hotelagency.model.binding.UserRegisterBindingModel;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
+import bg.softuni.hotelagency.model.view.ReservationTableViewModel;
 import bg.softuni.hotelagency.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -70,5 +75,19 @@ public class UserController {
         redirectAttributes.addFlashAttribute("notFound", true);
         redirectAttributes.addFlashAttribute("username", username);
         return "redirect:login";
+    }
+
+    @GetMapping("/reservations")
+    public String reservations(Model model,
+                               @AuthenticationPrincipal UserDetails userDetails) {
+        List<ReservationTableViewModel> reservations = userService.
+                getUserReservationsByEmail(userDetails.getUsername()).
+                stream().map(r -> {
+            ReservationTableViewModel reservationTableViewModel = modelMapper.map(r, ReservationTableViewModel.class);
+            reservationTableViewModel.setHotel(r.getRoom().getHotel());
+            return reservationTableViewModel;
+        }).collect(Collectors.toList());
+        model.addAttribute("reservations", reservations);
+        return "user-reservations";
     }
 }

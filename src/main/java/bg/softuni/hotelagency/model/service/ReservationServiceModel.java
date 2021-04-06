@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 public class ReservationServiceModel {
+    private Long id;
     private LocalDate arriveDate;
     private LocalDate leaveDate;
     private Integer countOfRooms;
@@ -15,6 +16,15 @@ public class ReservationServiceModel {
     private User user;
 
     public ReservationServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public ReservationServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public LocalDate getArriveDate() {
