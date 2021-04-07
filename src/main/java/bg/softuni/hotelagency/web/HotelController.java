@@ -10,9 +10,7 @@ import bg.softuni.hotelagency.model.entity.enums.StarEnum;
 import bg.softuni.hotelagency.model.service.HotelServiceModel;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;
-import bg.softuni.hotelagency.model.view.HotelDetailsViewModel;
-import bg.softuni.hotelagency.model.view.HotelEditViewModel;
-import bg.softuni.hotelagency.model.view.RoomReserveViewModel;
+import bg.softuni.hotelagency.model.view.*;
 import bg.softuni.hotelagency.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -167,7 +165,6 @@ public class HotelController {
             return "redirect:/hotels/details/" + id;
         }
 
-        //TODO: make template V
         return "redirect:/users/reservations";
     }
 
@@ -202,6 +199,20 @@ public class HotelController {
         return "redirect:/hotels/details/" + id;
     }
 
+
+    @GetMapping("/owned")
+    public String ownedHotels(){
+        return "my-hotels";
+    }
+
+    @GetMapping("/reservations/{id}")
+    public String reservations(Model model, @PathVariable Long id){
+        List<ReservationHotelViewModel> reservations = reservationService.getReservationsByHotelId(id).
+                stream().map(r -> modelMapper.map(r, ReservationHotelViewModel.class)).
+                collect(Collectors.toList());
+        model.addAttribute("reservations", reservations);
+        return "hotel-reservations";
+    }
 
     private void setStarEnum(String bindedStars, HotelServiceModel hotelServiceModel) {
         Arrays.stream(StarEnum.values()).forEach(v -> {

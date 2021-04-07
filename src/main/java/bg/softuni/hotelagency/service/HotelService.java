@@ -14,4 +14,6 @@ public interface HotelService {
     void saveChanges(HotelServiceModel hotelServiceModel);
 
     List<HotelServiceModel> getAllHotels();
+
+    List<HotelServiceModel> getHotelsByOwnerEmail(String username);
 }

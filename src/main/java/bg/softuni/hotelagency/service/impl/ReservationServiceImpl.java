@@ -35,7 +35,6 @@ public class ReservationServiceImpl implements ReservationService {
             Integer roomAllCount = roomService.getRoomsCountByRoom(reservationServiceModel.getRoom());
             if (roomAllCount - (reservedRoomsCount + reservationServiceModel.getCountOfRooms()) < 0) {
                 return null;
-                //TODO:Optimize check for free rooms
             }
             currDate = currDate.plusDays(1);
         }
@@ -52,5 +51,14 @@ public class ReservationServiceImpl implements ReservationService {
     public void deleteReservation(Long id) {
         reservationRepository.
                 delete(reservationRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Reservation")));
+    }
+
+    @Override
+    public List<ReservationServiceModel> getReservationsByHotelId(Long id) {
+        return reservationRepository.
+                getReservationsByRoomHotelIdOrderByArriveDate(id).
+                stream().
+                map(r->modelMapper.map(r,ReservationServiceModel.class)).
+                collect(Collectors.toList());
     }
 }

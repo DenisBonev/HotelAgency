@@ -12,7 +12,7 @@
             <thead>
             <tr class="table-dark">
                 <th scope="col"></th>
-                <th scope="col">Hotel</th>
+                <th scope="col">User</th>
                 <th scope="col">Arrive Date</th>
                 <th scope="col">Leave Date</th>
                 <th scope="col">Rooms</th>
@@ -22,8 +22,8 @@
             <tbody>
             <tr th:each="r:${reservations}">
                 <th scope="row"></th>
-                <td><a class="text-dark" th:href="@{/hotels/details/{id}(id=${r.hotel.id})}"
-                       th:text="${r.hotel.name}"></a></td>
+                <td><a class="text-dark" th:href="@{/users/{id}(id=${r.user.id})}"
+                       th:text="|${r.user.firstName} ${r.user.lastName}|"></a></td>
                 <td th:text="${#temporals.format(r.arriveDate,'dd-MM-yyyy')}"></td>
                 <td th:text="${#temporals.format(r.leaveDate,'dd-MM-yyyy')}"></td>
                 <td th:text="|${r.room.type}(${r.room.name})x${r.countOfRooms}|"></td>
@@ -36,19 +36,6 @@
     </div>
 </main>
 <footer th:replace="/fragments/fragments::footer"></footer>
-<script>
-    document.querySelectorAll('button').forEach(b => b.addEventListener('click', cancelReservation));
-
-    function cancelReservation(e) {
-        fetch('http://localhost:8080/reservations/delete/'+e.target.id,
-            {
-                method: 'delete',
-            }).
-        then(res => {
-            console.log(res);
-            e.target.parentElement.parentElement.remove();
-        });
-    }
-</script>
+<script src="/js/cancel-reservation.js"></script>
 </body>
 </html>

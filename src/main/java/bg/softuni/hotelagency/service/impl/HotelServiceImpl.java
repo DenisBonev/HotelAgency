@@ -59,4 +59,13 @@ public class HotelServiceImpl implements HotelService {
                 collect(Collectors.toList());
     }
 
+    @Override
+    public List<HotelServiceModel> getHotelsByOwnerEmail(String email) {
+        return hotelRepository.
+                getAllByOwnerEmail(email).
+                stream().
+                map(h -> modelMapper.map(h, HotelServiceModel.class)).
+                collect(Collectors.toList());
+    }
+
 }

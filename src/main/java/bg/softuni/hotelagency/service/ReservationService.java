@@ -5,6 +5,7 @@ import bg.softuni.hotelagency.model.entity.Reservation;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface ReservationService {
@@ -13,4 +14,6 @@ public interface ReservationService {
     List<ReservationServiceModel> getReservationsByUser(User user);
 
     void deleteReservation(Long id);
+
+    List<ReservationServiceModel> getReservationsByHotelId(Long id);
 }

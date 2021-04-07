@@ -55,7 +55,6 @@
                         <a class="btn btn-warning fw-bold" th:href="@{/hotels/edit/{id}(id=${id})}"
                            role="button">Edit</a>
                     </div>
-                    <!--                    TODO:Add room and Edit details buttons for hotel owner-->
                     <form th:unless="${isOwner}" method="POST" th:action="@{/hotels/reserve/{id}(id=${id})}"
                           th:object="${reservationCreateBindingModel}">
                         <div class="row">

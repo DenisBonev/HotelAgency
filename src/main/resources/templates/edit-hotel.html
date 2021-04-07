@@ -64,12 +64,11 @@
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
-                            <label for="pictures" class="text-white font-weight-bold">Add pictures of your hotel</label>
+                            <label for="pictures" class="text-white font-weight-bold">Add more pictures of your hotel</label>
                             <input type="file"
                                    id="pictures" name="pictures" th:field="*{pictures}"
                                    th:errorclass="is-invalid"
                                    accept="image/png, image/jpeg" class="form-control" multiple>
-                            <!--                            TODO:images show-->
                             <p class="errors alert alert-danger invalid-feedback">
                                 Upload at least one picture.
                             </p>
@@ -103,7 +102,7 @@
                         </div>
                     </div>
                     <div>
-                        Images
+                        <label class="text-white font-weight-bold">Uploaded images</label>
                         <ul class="row-cols-auto">
                             <li th:each="i:${hotelData.imageUrls}" class="image-cont">
                                 <img th:src="${i}"
