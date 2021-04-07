@@ -5,6 +5,7 @@ import bg.softuni.hotelagency.model.binding.UserRegisterBindingModel;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
 import bg.softuni.hotelagency.model.view.ReservationTableViewModel;
 import bg.softuni.hotelagency.model.view.UserEditViewModel;
+import bg.softuni.hotelagency.model.view.UserProfileViewModel;
 import bg.softuni.hotelagency.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -93,6 +94,12 @@ public class UserController {
         }).collect(Collectors.toList());
         model.addAttribute("reservations", reservations);
         return "user-reservations";
+    }
+
+    @GetMapping("/{id}")
+    public String userProfile(@PathVariable Long id,Model model){
+       model.addAttribute("user",modelMapper.map(userService.getUserById(id), UserProfileViewModel.class));
+        return "user-profile";
     }
 
     @GetMapping("/edit-profile")

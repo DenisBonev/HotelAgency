@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/fragments::head"></head>
+<body>
+<header th:replace="/fragments/fragments::navbar"></header>
+<main class="main">
+    <div id="containerDetails">
+        <div class="row d-inline-flex mb-3" th:object="${user}">
+            <img th:src="*{profilePicture}"
+                 class="d-block profile-pic">
+            <div id="description" class="col">
+                <p class="h1 fw-bold" th:text="|*{firstName} *{lastName}|">Title</p>
+                <dl class="d-block">
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9" th:text="*{email}">.....</dd>
+
+                    <dt class="col-sm-3">Phone</dt>
+                    <dd class="col-sm-9" th:text="*{phoneNumber}">................
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="/fragments/fragments::footer"></footer>
+</body>
+</html>

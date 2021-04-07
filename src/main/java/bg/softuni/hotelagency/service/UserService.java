@@ -19,4 +19,6 @@ public interface UserService {
     List<ReservationServiceModel> getUserReservationsByEmail(String email);
 
     void updateUser(UserServiceModel userServiceModel) throws IOException;
+
+    User getUserById(Long id);
 }

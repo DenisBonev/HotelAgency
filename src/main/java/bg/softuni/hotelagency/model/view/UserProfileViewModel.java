@@ -1,20 +1,21 @@
 package bg.softuni.hotelagency.model.view;
 
 
-public class UserEditViewModel {
+public class UserProfileViewModel {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
+    private String profilePicture;
 
-    public UserEditViewModel() {
+    public UserProfileViewModel() {
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public UserEditViewModel setFirstName(String firstName) {
+    public UserProfileViewModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -23,7 +24,7 @@ public class UserEditViewModel {
         return lastName;
     }
 
-    public UserEditViewModel setLastName(String lastName) {
+    public UserProfileViewModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -32,7 +33,7 @@ public class UserEditViewModel {
         return email;
     }
 
-    public UserEditViewModel setEmail(String email) {
+    public UserProfileViewModel setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -42,9 +43,17 @@ public class UserEditViewModel {
         return phoneNumber;
     }
 
-    public UserEditViewModel setPhoneNumber(String phoneNumber) {
+    public UserProfileViewModel setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public UserProfileViewModel setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+        return this;
+    }
 }

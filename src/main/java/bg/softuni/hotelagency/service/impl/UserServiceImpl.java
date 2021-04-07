@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                     uploadImage(userServiceModel.
                             getProfilePicture()));
         } else {
-            user.setProfilePicture(null);
+            user.setProfilePicture("https://res.cloudinary.com/dbeukad1v/image/upload/v1617809534/default-profile-pic_pak4ju.png");
         }
         user.setPassword(passwordEncoder.
                 encode(userServiceModel.getPassword()));
@@ -110,5 +110,11 @@ public class UserServiceImpl implements UserService {
             user.setProfilePicture(cloudinaryService.uploadImage(userServiceModel.getProfilePicture()));
         }
         userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).
+                orElseThrow(()->new EntityNotFoundException("User"));
     }
 }
