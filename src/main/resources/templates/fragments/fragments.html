@@ -63,11 +63,19 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                            <th:block sec:authorize="hasRole('HOTEL_OWNER')">
+                            <li><a class="dropdown-item" href="#">My Hotels</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            </th:block>
+                            <th:block sec:authorize="hasRole('ADMIN')">
                             <li><a class="dropdown-item" href="#">User Management</a></li>
                             <li><a class="dropdown-item" href="#">Statistics</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                            </th:block>
                             <li class="dropdown-item" sec:authorize="isAuthenticated()">
                                 <form th:action="@{/users/logout}" method="post">
                                     <button type="submit" class="active border-0 bg-white">

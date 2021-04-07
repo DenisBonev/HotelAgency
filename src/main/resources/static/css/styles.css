@@ -36,12 +36,13 @@ body, html {
     width: 100%;
 }
 
-.my-card-group {
-    width: 80%;
+
+.card-image {
+    max-width: 430px;
 }
 
-.my-card {
-    margin: 10px;
+.my-card{
+    max-width: 430px;
 }
 
 

@@ -10,6 +10,9 @@ import bg.softuni.hotelagency.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -45,6 +48,15 @@ public class HotelServiceImpl implements HotelService {
                 .setStars(hotelServiceModel.getStars());
         hotelRepository.save(hotel);
 
+    }
+
+    @Override
+    public List<HotelServiceModel> getAllHotels() {
+        return hotelRepository.
+                findAll().
+                stream().
+                map(h -> modelMapper.map(h, HotelServiceModel.class)).
+                collect(Collectors.toList());
     }
 
 }

@@ -5,67 +5,99 @@
 <head th:replace="/fragments/fragments::head"></head>
 <body>
 <nav th:replace="/fragments/fragments::navbar"></nav>
-<main class="main">
+<main class="main container">
     <div class="container bg-white p-4 rounded-1">
-        <form action="" method="POST">
-            <div class="row">
-                <div class="form-group col-md-2 mb-3">
-                    <label for="hotelName" class="text-black-50 font-weight-bold">Hotel Name</label>
-                    <input id="hotelName" type="text" min="2" max="20" class="form-control"
-                           placeholder="Hotel Name"/>
-                </div>
-                <div class="form-group col-md-3 mb-3">
-                    <label for="stars" class="text-black-50 font-weight-bold">Last Name</label>
-                    <select id="stars" class="form-control">
-                        <option value="">- Choose stars count -</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 mb-3">
-                    <label for="stars" class="text-black-50 font-weight-bold">Last Name</label>
-                    <select id="stars" class="form-control">
-                        <option value="">- Choose stars count -</option>
-                    </select>
+        <div class="row">
+            <div class="form-group col-md-3 mb-3">
+                <label for="hotelName" class="text-black-50 font-weight-bold">Hotel Name</label>
+                <input id="hotelName" type="search" min="2" max="20" class="form-control"
+                       placeholder="Hotel Name"/>
+            </div>
+            <div class="form-group col-md-3 mb-3">
+                <label for="stars" class="text-black-50 font-weight-bold">Stars</label>
+                <select id="stars" class="form-control">
+                    <option value="">- Choose stars count -</option>
+                    <option th:each="s:${T(bg.softuni.hotelagency.model.entity.enums.StarEnum).values()}"
+                            th:value="${s.name()}"
+                            th:text="${s}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-5 mb-3">
+                <label for="address" class="text-black-50 font-weight-bold">Location</label>
+                <input id="address" type="search" min="2" max="20" class="form-control"
+                       placeholder="Country, Town, Street, ect..."/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input id="searchBtn" type="button" class="btn btn-info btn-lg" value="Search"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col col-md-4">
-                    <div class="button-holder d-flex">
-                        <input type="submit" class="btn btn-info btn-lg" value="Submit Offer"/>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-    <div class="card-group my-card-group align-content-center mx-auto">
-        <div class="card my-card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card my-card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card my-card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
+    <div id="cardsList">
+<!--        <div class="card-group my-card-group align-content-center mx-auto">-->
+<!--            <div class="card ">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card ">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card ">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card-group my-card-group align-content-center mx-auto">-->
+<!--            <div class="card my-card">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card my-card">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card my-card">-->
+<!--                <img class="card-img-top" src="..." alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+<!--                        card's content.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </main>
 <footer th:replace="/fragments/fragments::footer"></footer>
+<script src="/js/search-bar.js"></script>
 </body>
 </html>
