@@ -1,14 +1,27 @@
 package bg.softuni.hotelagency.model.view;
 
 
+import java.util.List;
+
 public class UserProfileViewModel {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String profilePicture;
+    private List<String> roles;
 
     public UserProfileViewModel() {
+    }
+
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public UserProfileViewModel setRoles(List<String> roles) {
+        this.roles = roles;
+        return this;
     }
 
     public String getFirstName() {

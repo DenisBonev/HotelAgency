@@ -37,6 +37,9 @@ public class CommentRestController {
     public ResponseEntity<Comment> addComment(@PathVariable Long hotelId,
                                               @AuthenticationPrincipal UserDetails principal,
                                               @RequestBody String content) {
+        if (content.length() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
         CommentServiceModel commentServiceModel = new CommentServiceModel();
         commentServiceModel.
                 setContent(content).

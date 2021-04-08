@@ -38,7 +38,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 loginPage("/users/login").
                 usernameParameter("email").
                 passwordParameter("password").
-                defaultSuccessUrl("/home").
+                defaultSuccessUrl("/").
                 failureForwardUrl("/users/login-error").
                 and().
                 logout().

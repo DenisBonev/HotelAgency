@@ -28,6 +28,30 @@
                                role="button" value="Change password">
                     </form>
                 </div>
+                <form sec:authorize="hasRole('ADMIN')" th:action="@{/users/change-roles/{id}(id=${id})}"
+                      th:method="PATCH" th:object="${roleChangeBindingModel}">
+                    <div class="row d-inline-block">
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="user" class="text-dark font-weight-bold">USER</label>
+                            <input type="checkbox" id="user" name="user"
+                                   th:value="${T(bg.softuni.hotelagency.model.entity.enums.RoleEnum).USER}" th:checked="${user.roles.contains('USER')}">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="hotelOwner" class="text-dark font-weight-bold">HOTEL OWNER</label>
+                            <input type="checkbox" id="hotelOwner" name="hotelOwner"
+                                   th:value="${T(bg.softuni.hotelagency.model.entity.enums.RoleEnum).HOTEL_OWNER}" th:checked="${user.roles.contains('HOTEL_OWNER')}">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="admin" class="text-dark font-weight-bold">ADMIN</label>
+                            <input type="checkbox" id="admin" name="admin"
+                                   th:value="${T(bg.softuni.hotelagency.model.entity.enums.RoleEnum).ADMIN}" th:checked="${user.roles.contains('ADMIN')}">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <input type="submit" value="Save Roles" class="btn btn-warning">
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>

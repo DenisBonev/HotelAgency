@@ -1,8 +1,10 @@
 package bg.softuni.hotelagency.web;
 
+import bg.softuni.hotelagency.model.binding.RoleChangeBindingModel;
 import bg.softuni.hotelagency.model.binding.UserEditBindingModel;
 import bg.softuni.hotelagency.model.binding.UserRegisterBindingModel;
 import bg.softuni.hotelagency.model.entity.User;
+import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
 import bg.softuni.hotelagency.model.view.ReservationTableViewModel;
 import bg.softuni.hotelagency.model.view.UserEditViewModel;
@@ -19,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,6 +46,12 @@ public class UserController {
     @ModelAttribute("userEditBindingModel")
     public UserEditBindingModel userEditBindingModel() {
         return new UserEditBindingModel();
+    }
+
+
+    @ModelAttribute("roleChangeBindingModel")
+    public RoleChangeBindingModel roleChangeBindingModel() {
+        return new RoleChangeBindingModel();
     }
 
     @GetMapping("/register")
@@ -102,7 +112,12 @@ public class UserController {
                               Model model,
                               @AuthenticationPrincipal UserDetails principal) {
         User user = userService.getUserById(id);
-        model.addAttribute("user", modelMapper.map(user, UserProfileViewModel.class));
+        UserProfileViewModel userProfileViewModel = modelMapper.map(user, UserProfileViewModel.class);
+        userProfileViewModel.
+                setRoles(user.getRoles().stream().
+                        map(r -> r.getName().toString()).
+                        collect(Collectors.toList()));
+        model.addAttribute("user", userProfileViewModel);
         model.addAttribute("isOwner", userService.getUserByEmail(principal.getUsername()).getId().equals(user.getId()));
         return "user-profile";
     }
@@ -137,4 +152,22 @@ public class UserController {
         userService.updateUser(userServiceModel);
         return "redirect:/home";
     }
+
+    @PatchMapping("/change-roles/{userId}")
+    public String saveRoles(RoleChangeBindingModel roleChangeBindingModel, @PathVariable Long userId) {
+        List<RoleEnum> roles = new ArrayList<>();
+        roles.add(roleChangeBindingModel.getUser());
+        roles.add(roleChangeBindingModel.getAdmin());
+        roles.add(roleChangeBindingModel.getHotelOwner());
+        roles = roles.
+                stream().
+                filter(Objects::nonNull).
+                collect(Collectors.toList());
+        userService.setUserRoles(userId, roles);
+        return "redirect:/admin/manage-users";
+    }
+
+
 }
+
+

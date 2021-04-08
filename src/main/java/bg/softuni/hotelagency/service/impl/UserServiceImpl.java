@@ -1,10 +1,12 @@
 package bg.softuni.hotelagency.service.impl;
 
+import bg.softuni.hotelagency.model.binding.RoleChangeBindingModel;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
+import bg.softuni.hotelagency.model.view.UserRoleViewModel;
 import bg.softuni.hotelagency.repository.UserRepository;
 import bg.softuni.hotelagency.repository.UserRoleRepository;
 import bg.softuni.hotelagency.service.CloudinaryService;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -116,6 +119,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).
-                orElseThrow(()->new EntityNotFoundException("User"));
+                orElseThrow(() -> new EntityNotFoundException("User"));
+    }
+
+    @Override
+    public List<UserRoleViewModel> getAllUsers() {
+        return userRepository.
+                findAll().
+                stream().
+                map(u -> {
+                    UserRoleViewModel user = modelMapper.map(u, UserRoleViewModel.class);
+                    user.setRoles(u.getRoles().
+                            stream().
+                            map(r -> r.getName().toString()).
+                            collect(Collectors.toList()));
+                    return user;
+                }).
+                collect(Collectors.toList());
+    }
+
+    @Override
+    public void setUserRoles(Long userId, List<RoleEnum> roles) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User"));
+        user.setRoles(roles.
+                        stream().
+                        map(re -> userRoleRepository.getUserRoleByName(re).orElseThrow(() -> new EntityNotFoundException("Role")))
+                        .collect(Collectors.toList()));
+        userRepository.save(user);
     }
 }
