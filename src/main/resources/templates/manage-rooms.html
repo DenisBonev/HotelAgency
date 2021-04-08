@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/fragments::head"></head>
+<body>
+<header th:replace="/fragments/fragments::navbar"></header>
+<main class="p-5 align-content-center bg-blur main">
+
+    <div class="container-fluid bg-white">
+        <div class="row">
+            <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4 pb-4">
+                <div class="chartjs-size-monitor"
+                     style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                    <div class="chartjs-size-monitor-expand"
+                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink"
+                         style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                    </div>
+                </div>
+                <div class="d-inline-block pt-3">
+                    <h1 id="hotel" th:hotelId="${hotel.id}" th:text="${hotel.name}" class="text-dark me-3 fw-bold"></h1>
+                    <h2 class="text-dark me-3">Rooms</h2>
+                </div>
+                <div class="table-responsive text-light">
+                    <table class="table-bordered table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Single Beds</th>
+                            <th>Twin Beds</th>
+                            <th>Count</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>DOUBLE</td>
+                            <td>President Apartment</td>
+                            <td>80.00</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td><a class="btn btn-danger w-100" type="button" href="/hotels/edit-room/{id}">EDIT</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a type="button" class="btn btn-success" th:href="@{/hotels/add-room/{hotelId}(hotelId=${hotel.id})}">Add Room</a>
+                </div>
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="/fragments/fragments::footer"></footer>
+</body>
+
+<script src="/js/rooms-table.js"></script>
+
+</html>

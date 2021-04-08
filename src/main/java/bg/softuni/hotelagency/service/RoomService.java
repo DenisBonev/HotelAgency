@@ -13,4 +13,6 @@ public interface RoomService {
     Integer getRoomsCountByRoom(Room room);
 
     Room getRoomById(Long id);
+
+    Long patchChanges(RoomServiceModel room);
 }

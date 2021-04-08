@@ -33,12 +33,13 @@ function loadAllComments() {
             const div2 = document.createElement('div');
             div2.className = 'd-flex justify-content-between align-items-center';
             const div3 = document.createElement('div');
-            div3.className = 'user d-flex flex-row align-items-center';
+            div3.className = 'user d-flex flex-row align-items-center gap-1';
             const image = document.createElement('img');
             image.src = c.userPic;
             image.className = 'user-img rounded-circle mr-2';
             image.width = 30;
             const span = document.createElement('span');
+            span.className='gap-2 align-items-center d-flex flex-row';
             const smallUsername = document.createElement('small');
             smallUsername.className = 'font-weight-bold text-primary'
             smallUsername.innerText = c.userNames;

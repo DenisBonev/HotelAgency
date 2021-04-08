@@ -122,6 +122,12 @@ public class UserController {
         return "user-profile";
     }
 
+    @GetMapping("/my-profile")
+    public String myProfile(@AuthenticationPrincipal UserDetails principal) {
+        User user = userService.getUserByEmail(principal.getUsername());
+        return "redirect:/users/" + user.getId();
+    }
+
     @GetMapping("/edit-profile")
     public String editProfile(Model model,
                               @AuthenticationPrincipal UserDetails principal) {

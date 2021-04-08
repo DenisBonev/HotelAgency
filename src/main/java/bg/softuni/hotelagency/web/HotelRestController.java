@@ -1,13 +1,16 @@
 package bg.softuni.hotelagency.web;
 
 import bg.softuni.hotelagency.model.view.HotelCardViewModel;
+import bg.softuni.hotelagency.model.view.RoomTableViewModel;
 import bg.softuni.hotelagency.service.HotelService;
 import bg.softuni.hotelagency.service.PictureService;
+import bg.softuni.hotelagency.service.RoomService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,11 +24,13 @@ public class HotelRestController {
     private final HotelService hotelService;
     private final PictureService pictureService;
     private final ModelMapper modelMapper;
+    private final RoomService roomService;
 
-    public HotelRestController(HotelService hotelService, PictureService pictureService, ModelMapper modelMapper) {
+    public HotelRestController(HotelService hotelService, PictureService pictureService, ModelMapper modelMapper, RoomService roomService) {
         this.hotelService = hotelService;
         this.pictureService = pictureService;
         this.modelMapper = modelMapper;
+        this.roomService = roomService;
     }
 
 
@@ -57,6 +62,17 @@ public class HotelRestController {
                 collect(Collectors.toList());
 
         return ResponseEntity.ok().body(hotelCardViewModels);
+    }
+
+    @GetMapping("/rooms/{hotelId}")
+    public ResponseEntity<List<RoomTableViewModel>> getRoomsByHotelId(@PathVariable Long hotelId) {
+        List<RoomTableViewModel> rooms = roomService.
+                getHotelsRooms(hotelId).
+                stream().
+                map(r -> modelMapper.map(r, RoomTableViewModel.class)).
+                collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(rooms);
     }
 
 }

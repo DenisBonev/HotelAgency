@@ -67,7 +67,7 @@ public class CommentRestController {
     }
 
     private String formatPostedOn(LocalDate postedOn) {
-        int days = Period.between(LocalDate.now(), postedOn).getDays();
+        int days = Period.between(postedOn,LocalDate.now()).getDays();
         if (days == 0) {
             return "Today";
         }

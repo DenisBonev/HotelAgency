@@ -94,6 +94,37 @@ public class HotelController {
         return "redirect:/hotels/add-room/" + hotelId;
     }
 
+
+    @GetMapping("/rooms/manage/{hotelId}")
+    public String manageRooms(Model model, @PathVariable Long hotelId) {
+        HotelRoomTableViewModel hotelViewModel = modelMapper.map(hotelService.getHotelById(hotelId), HotelRoomTableViewModel.class);
+        model.addAttribute("hotel", hotelViewModel);
+        return "manage-rooms";
+    }
+
+    @GetMapping("/edit-room/{id}")
+    private String editRoom(RoomAddBindingModel roomAddBindingModel, Model model, @PathVariable Long id) {
+        RoomTableViewModel room = modelMapper.map(roomService.getRoomById(id), RoomTableViewModel.class);
+        model.addAttribute("room", room);
+        return "edit-room";
+    }
+
+    @PatchMapping("/edit-room/{roomId}")
+    public String editRoomPatch(@Valid RoomAddBindingModel roomAddBindingModel,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes,
+                                @PathVariable Long roomId) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("roomAddBindingModel", roomAddBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.roomAddBindingModel", bindingResult);
+            return "redirect:/hotels/edit-room/" + roomId;
+        }
+        RoomServiceModel room = modelMapper.map(roomAddBindingModel, RoomServiceModel.class);
+        room.setId(roomId);
+        Long hotelId = roomService.patchChanges(room);
+        return "redirect:/hotels/rooms/manage/" + hotelId;
+    }
+
     @GetMapping("/add-room/{id}")
     public String addRoom(@PathVariable String id, Model model) {
         model.addAttribute("hotelId", id);
@@ -101,31 +132,29 @@ public class HotelController {
     }
 
 
-    @PostMapping("/add-room/{id}")
+    @PostMapping("/add-room/{hotelId}")
     public String addRoomPost(@Valid RoomAddBindingModel roomAddBindingModel,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes,
-                              @PathVariable Long id) {
+                              @PathVariable Long hotelId) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("roomAddBindingModel", roomAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.roomAddBindingModel", bindingResult);
-            return "redirect:/hotels/add-room/" + id;
+            return "redirect:/hotels/add-room/" + hotelId;
         }
         RoomServiceModel roomServiceModel = modelMapper.map(roomAddBindingModel, RoomServiceModel.class).
-                setHotel(hotelService.getHotelById(id));
+                setHotel(hotelService.getHotelById(hotelId));
         roomService.createRoom(roomServiceModel);
 
 
-        return "redirect:/hotels/details/" + id;
+        return "redirect:/hotels/rooms/manage/" + hotelId;
     }
-
 
 
     @GetMapping("/details/{id}")
     public String detailsGet(@PathVariable Long id,
                              Model model,
                              @AuthenticationPrincipal UserDetails userDetails) {
-        //TODO: add comments
         Hotel hotel = hotelService.getHotelById(id);
         HotelDetailsViewModel hotelDetailsViewModel = modelMapper.map(hotel, HotelDetailsViewModel.class);
         List<String> pictureUrls = pictureService.getPicturesByHotelId(id);
@@ -201,12 +230,12 @@ public class HotelController {
 
 
     @GetMapping("/owned")
-    public String ownedHotels(){
+    public String ownedHotels() {
         return "my-hotels";
     }
 
     @GetMapping("/reservations/{id}")
-    public String reservations(Model model, @PathVariable Long id){
+    public String reservations(Model model, @PathVariable Long id) {
         List<ReservationHotelViewModel> reservations = reservationService.getReservationsByHotelId(id).
                 stream().map(r -> modelMapper.map(r, ReservationHotelViewModel.class)).
                 collect(Collectors.toList());
