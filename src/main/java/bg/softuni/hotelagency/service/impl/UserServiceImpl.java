@@ -21,6 +21,7 @@ import java.util.Objects;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final String DEFAULT_PROFILE_PICTURE = "https://res.cloudinary.com/dbeukad1v/image/upload/v1617809534/default-profile-pic_pak4ju.png";
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
                     uploadImage(userServiceModel.
                             getProfilePicture()));
         } else {
-            user.setProfilePicture("https://res.cloudinary.com/dbeukad1v/image/upload/v1617809534/default-profile-pic_pak4ju.png");
+            user.setProfilePicture(DEFAULT_PROFILE_PICTURE);
         }
         user.setPassword(passwordEncoder.
                 encode(userServiceModel.getPassword()));

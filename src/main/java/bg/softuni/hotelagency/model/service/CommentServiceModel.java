@@ -1,29 +1,24 @@
-package bg.softuni.hotelagency.model.entity;
+package bg.softuni.hotelagency.model.service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import bg.softuni.hotelagency.model.entity.Hotel;
+import bg.softuni.hotelagency.model.entity.User;
+
 import java.time.LocalDate;
 
-@Entity
-public class Comment extends BaseEntity {
-    @Column(nullable = false)
+public class CommentServiceModel {
     private String content;
-    @Column(nullable = false)
-    private LocalDate postedOn;
-    @ManyToOne
     private User user;
-    @ManyToOne
     private Hotel hotel;
+    private LocalDate postedOn;
 
-    public Comment() {
+    public CommentServiceModel() {
     }
 
     public String getContent() {
         return content;
     }
 
-    public Comment setContent(String content) {
+    public CommentServiceModel setContent(String content) {
         this.content = content;
         return this;
     }
@@ -32,7 +27,7 @@ public class Comment extends BaseEntity {
         return user;
     }
 
-    public Comment setUser(User user) {
+    public CommentServiceModel setUser(User user) {
         this.user = user;
         return this;
     }
@@ -41,7 +36,7 @@ public class Comment extends BaseEntity {
         return hotel;
     }
 
-    public Comment setHotel(Hotel hotel) {
+    public CommentServiceModel setHotel(Hotel hotel) {
         this.hotel = hotel;
         return this;
     }
@@ -50,7 +45,7 @@ public class Comment extends BaseEntity {
         return postedOn;
     }
 
-    public Comment setPostedOn(LocalDate postedOn) {
+    public CommentServiceModel setPostedOn(LocalDate postedOn) {
         this.postedOn = postedOn;
         return this;
     }

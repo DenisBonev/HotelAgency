@@ -20,6 +20,14 @@
                     <dd class="col-sm-9" th:text="*{phoneNumber}">................
                     </dd>
                 </dl>
+                <div th:if="${isOwner}" class="d-grid gap-2 d-md-inline-flex">
+                    <a class="btn btn-success fw-bold" th:href="@{/users/edit-profile}" role="button">Edit
+                        Profile</a>
+                    <form action="#" method="post">
+                        <input type="submit" class="btn btn-warning fw-bold"
+                               role="button" value="Change password">
+                    </form>
+                </div>
             </div>
         </div>
     </div>

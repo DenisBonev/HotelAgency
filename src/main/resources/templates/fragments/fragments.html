@@ -26,16 +26,10 @@
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div sec:authorize="hasRole('ADMIN')" class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Admin Panel
+            <div sec:authorize="hasRole('ADMIN')">
+                <button class="btn btn-secondary" type="button">
+                    Admin Profile
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/statistics">Statistics</a>
-                    <a class="dropdown-item" href="/articles/add">Add article</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
             </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
                 <ul class="navbar-nav row align-items d-inline-flex">
@@ -64,17 +58,17 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <th:block sec:authorize="hasRole('HOTEL_OWNER')">
-                            <li><a class="dropdown-item" href="/hotels/owned">My Hotels</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                                <li><a class="dropdown-item" href="/hotels/owned">My Hotels</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                             </th:block>
                             <th:block sec:authorize="hasRole('ADMIN')">
-                            <li><a class="dropdown-item" href="#">User Management</a></li>
-                            <li><a class="dropdown-item" href="#">Statistics</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                                <li><a class="dropdown-item" href="#">User Management</a></li>
+                                <li><a class="dropdown-item" href="#">Statistics</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                             </th:block>
                             <li class="dropdown-item" sec:authorize="isAuthenticated()">
                                 <form th:action="@{/users/logout}" method="post">

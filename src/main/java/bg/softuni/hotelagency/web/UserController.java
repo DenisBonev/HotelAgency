@@ -2,6 +2,7 @@ package bg.softuni.hotelagency.web;
 
 import bg.softuni.hotelagency.model.binding.UserEditBindingModel;
 import bg.softuni.hotelagency.model.binding.UserRegisterBindingModel;
+import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.service.UserServiceModel;
 import bg.softuni.hotelagency.model.view.ReservationTableViewModel;
 import bg.softuni.hotelagency.model.view.UserEditViewModel;
@@ -97,8 +98,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String userProfile(@PathVariable Long id,Model model){
-       model.addAttribute("user",modelMapper.map(userService.getUserById(id), UserProfileViewModel.class));
+    public String userProfile(@PathVariable Long id,
+                              Model model,
+                              @AuthenticationPrincipal UserDetails principal) {
+        User user = userService.getUserById(id);
+        model.addAttribute("user", modelMapper.map(user, UserProfileViewModel.class));
+        model.addAttribute("isOwner", userService.getUserByEmail(principal.getUsername()).getId().equals(user.getId()));
         return "user-profile";
     }
 
