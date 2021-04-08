@@ -1,6 +1,5 @@
 package bg.softuni.hotelagency.service.impl;
 
-import bg.softuni.hotelagency.model.binding.RoleChangeBindingModel;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -142,9 +140,9 @@ public class UserServiceImpl implements UserService {
     public void setUserRoles(Long userId, List<RoleEnum> roles) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User"));
         user.setRoles(roles.
-                        stream().
-                        map(re -> userRoleRepository.getUserRoleByName(re).orElseThrow(() -> new EntityNotFoundException("Role")))
-                        .collect(Collectors.toList()));
+                stream().
+                map(re -> userRoleRepository.getUserRoleByName(re).orElseThrow(() -> new EntityNotFoundException("Role")))
+                .collect(Collectors.toList()));
         userRepository.save(user);
     }
 }

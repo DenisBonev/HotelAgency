@@ -74,6 +74,26 @@ public class HotelController {
     }
 
 
+    @PostMapping("/create")
+    public String addHotelPost(@Valid HotelCreateBindingModel hotelCreateBindingModel,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes,
+                               @AuthenticationPrincipal UserDetails principal) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("hotelCreateBindingModel", hotelCreateBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hotelCreateBindingModel", bindingResult);
+            return "redirect:/hotels/create";
+        }
+        //TODO:Reduce logic in controller
+        HotelServiceModel hotelServiceModel = modelMapper.map(hotelCreateBindingModel, HotelServiceModel.class);
+        setStarEnum(hotelCreateBindingModel.getStars(), hotelServiceModel);
+        hotelServiceModel.setOwner(userService.getUserByEmail(principal.getUsername()));
+        Long hotelId = hotelService.createHotel(hotelServiceModel);
+        pictureService.uploadHotelImages(hotelCreateBindingModel.getPictures(), hotelId);
+
+        return "redirect:/hotels/add-room/" + hotelId;
+    }
+
     @GetMapping("/add-room/{id}")
     public String addRoom(@PathVariable String id, Model model) {
         model.addAttribute("hotelId", id);
@@ -99,26 +119,6 @@ public class HotelController {
         return "redirect:/hotels/details/" + id;
     }
 
-
-    @PostMapping("/create")
-    public String addHotelPost(@Valid HotelCreateBindingModel hotelCreateBindingModel,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes,
-                               @AuthenticationPrincipal UserDetails principal) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("hotelCreateBindingModel", hotelCreateBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hotelCreateBindingModel", bindingResult);
-            return "redirect:/hotels/create";
-        }
-        //TODO:Reduce logic in controller
-        HotelServiceModel hotelServiceModel = modelMapper.map(hotelCreateBindingModel, HotelServiceModel.class);
-        setStarEnum(hotelCreateBindingModel.getStars(), hotelServiceModel);
-        hotelServiceModel.setOwner(userService.getUserByEmail(principal.getUsername()));
-        Long hotelId = hotelService.createHotel(hotelServiceModel);
-        pictureService.uploadHotelImages(hotelCreateBindingModel.getPictures(), hotelId);
-
-        return "redirect:/hotels/add-room/" + hotelId;
-    }
 
 
     @GetMapping("/details/{id}")

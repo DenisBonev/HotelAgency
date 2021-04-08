@@ -32,6 +32,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 authorizeRequests().
                 requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 antMatchers("/", "/users/login", "/users/register").permitAll().
+                antMatchers("/admin/**","users/change-roles/**", "users/all").hasRole("ADMIN").
+                antMatchers(
+                        "/hotels/create",
+                        "/hotels/add-room/**",
+                        "/hotels/edit/**",
+                        "/hotels/owned",
+                        "/hotels/reservations/**",
+                        "/hotels/api/owned",
+                        "/picture/delete").hasRole("HOTEL_OWNER").
                 antMatchers("/**").authenticated().
                 and().
                 formLogin().
@@ -47,8 +56,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 invalidateHttpSession(true).
                 deleteCookies("JSESSIONID");
     }
-
-
 
 
     @Override

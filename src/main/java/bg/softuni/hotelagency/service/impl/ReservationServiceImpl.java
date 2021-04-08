@@ -44,13 +44,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationServiceModel> getReservationsByUser(User user) {
-        return reservationRepository.getReservationsByUserOrderByArriveDate(user).stream().map(r->modelMapper.map(r, ReservationServiceModel.class)).collect(Collectors.toList());
+        return reservationRepository.getReservationsByUserOrderByArriveDate(user).stream().map(r -> modelMapper.map(r, ReservationServiceModel.class)).collect(Collectors.toList());
     }
 
     @Override
     public void deleteReservation(Long id) {
         reservationRepository.
-                delete(reservationRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Reservation")));
+                delete(reservationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation")));
     }
 
     @Override
@@ -58,7 +58,12 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.
                 getReservationsByRoomHotelIdOrderByArriveDate(id).
                 stream().
-                map(r->modelMapper.map(r,ReservationServiceModel.class)).
+                map(r -> modelMapper.map(r, ReservationServiceModel.class)).
                 collect(Collectors.toList());
+    }
+
+    @Override
+    public void deletePastReservations() {
+        reservationRepository.deleteReservationsByLeaveDateBefore(LocalDate.now());
     }
 }

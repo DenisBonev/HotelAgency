@@ -16,4 +16,6 @@ public interface ReservationService {
     void deleteReservation(Long id);
 
     List<ReservationServiceModel> getReservationsByHotelId(Long id);
+
+    void deletePastReservations();
 }

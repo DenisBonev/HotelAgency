@@ -19,4 +19,6 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     List<Reservation> getReservationsByUserOrderByArriveDate(User user);
 
     List<Reservation> getReservationsByRoomHotelIdOrderByArriveDate(Long id);
+
+    void deleteReservationsByLeaveDateBefore(LocalDate date);
 }

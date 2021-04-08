@@ -1,7 +1,5 @@
 package bg.softuni.hotelagency.web;
 
-import bg.softuni.hotelagency.model.binding.RoleChangeBindingModel;
-import bg.softuni.hotelagency.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
