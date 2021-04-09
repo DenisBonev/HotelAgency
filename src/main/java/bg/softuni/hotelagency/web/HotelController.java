@@ -13,6 +13,7 @@ import bg.softuni.hotelagency.model.service.RoomServiceModel;
 import bg.softuni.hotelagency.model.view.*;
 import bg.softuni.hotelagency.service.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;

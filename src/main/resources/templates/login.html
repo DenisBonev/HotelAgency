@@ -22,9 +22,10 @@
                             <label for="inputEmail" class="col-form-label text-black-50">Email</label>
                         </div>
                         <div class="col-auto">
-                            <input type="text"
+                            <input type="email"
                                    th:value="${username}"
                                    name="email"
+                                   required
                                    id="inputEmail"
                                    class="form-control"
                                    aria-describedby="emailHelpInline">
@@ -38,7 +39,7 @@
                             <label for="inputPassword" class="col-form-label text-black-50">Password</label>
                         </div>
                         <div class="col-auto">
-                            <input type="password" name="password" id="inputPassword" class="form-control"
+                            <input type="password" minlength="2" maxlength="20" required  name="password" id="inputPassword" class="form-control"
                                    aria-describedby="passwordHelpInline">
                         </div>
                     </div>
