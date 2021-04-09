@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserServiceModel userServiceModel) throws IOException {
+    public Long registerUser(UserServiceModel userServiceModel) throws IOException {
         User user = modelMapper.map(userServiceModel, User.class);
         if (!userServiceModel.getProfilePicture().isEmpty()) {
             user.setProfilePicture(cloudinaryService.
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
                     getUserRoleByName(RoleEnum.USER).
                     orElseThrow(() -> new EntityNotFoundException("UserRole"))));
         }
-        userRepository.save(user);
+       return userRepository.save(user).getId();
     }
 
     @Override

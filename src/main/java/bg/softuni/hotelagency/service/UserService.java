@@ -1,6 +1,5 @@
 package bg.softuni.hotelagency.service;
 
-import bg.softuni.hotelagency.model.binding.RoleChangeBindingModel;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
@@ -13,7 +12,7 @@ import java.util.List;
 public interface UserService {
     void populateAdmin();
 
-    void registerUser(UserServiceModel userServiceModel) throws IOException;
+    Long registerUser(UserServiceModel userServiceModel) throws IOException;
 
     boolean usernameExists(String email);
 
