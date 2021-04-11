@@ -3,6 +3,7 @@ package bg.softuni.hotelagency.event;
 import bg.softuni.hotelagency.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ public class LogEvent {
     }
 
 
+    @Async
     @Transactional
     @Scheduled(cron = "0 59 23 */1 * 7")
     public void cleanLog() {
@@ -26,6 +28,7 @@ public class LogEvent {
         LOGGER.info("Log history cleaned");
     }
 
+    @Async
     @Transactional
     @Scheduled(cron = "0 0 18 */1 * *")
     public void cleanExceptionLog() {

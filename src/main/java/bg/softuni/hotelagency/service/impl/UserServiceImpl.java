@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
                     setLastName("Admin").
                     setEmail("admin@abv.bg").
                     setPassword(passwordEncoder.encode("topsecret")).
+                    setProfilePicture(Constants.DEFAULT_PROFILE_PICTURE).
                     setRoles(List.of(
                             userRoleRepository.getUserRoleByName(RoleEnum.ADMIN).orElseThrow(() -> new EntityNotFoundException("UserRole")),
                             userRoleRepository.getUserRoleByName(RoleEnum.USER).orElseThrow(() -> new EntityNotFoundException("UserRole"))
@@ -69,10 +70,11 @@ public class UserServiceImpl implements UserService {
                 encode(userServiceModel.getPassword()));
 
 
-        //TODO:Optimize user's role setting
         if (userServiceModel.isHotelOwner()) {
-            user.setRoles(List.of(userRoleRepository.getUserRoleByName(RoleEnum.USER).orElseThrow(() -> new EntityNotFoundException("UserRole")),
-                    userRoleRepository.getUserRoleByName(RoleEnum.HOTEL_OWNER).orElseThrow(() -> new EntityNotFoundException("UserRole"))));
+            user.setRoles(List.of(userRoleRepository.getUserRoleByName(RoleEnum.USER).
+                            orElseThrow(() -> new EntityNotFoundException("UserRole")),
+                    userRoleRepository.getUserRoleByName(RoleEnum.HOTEL_OWNER).
+                            orElseThrow(() -> new EntityNotFoundException("UserRole"))));
         } else {
             user.setRoles(List.of(userRoleRepository.
                     getUserRoleByName(RoleEnum.USER).
@@ -95,7 +97,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ReservationServiceModel> getUserReservationsByEmail(String email) {
-        return reservationService.getReservationsByUser(getUserByEmail(email));
+        return reservationService.getReservationsByUser(userRepository.findUserByEmail(email).
+                orElseThrow(()->new EntityNotFoundException("User")));
     }
 
     @Override

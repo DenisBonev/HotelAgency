@@ -156,7 +156,7 @@ public class UserController {
         UserServiceModel userServiceModel = modelMapper.map(userEditBindingModel, UserServiceModel.class);
         userServiceModel.setId(userService.getUserByEmail(principal.getUsername()).getId());
         userService.updateUser(userServiceModel);
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @PatchMapping("/change-roles/{userId}")

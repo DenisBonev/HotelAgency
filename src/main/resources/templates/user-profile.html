@@ -23,11 +23,6 @@
                 <div th:if="${isOwner}" class="d-grid gap-2 d-md-inline-flex">
                     <a class="btn btn-success fw-bold" th:href="@{/users/edit-profile}" role="button">Edit
                         Profile</a>
-                    <form action="#" method="post">
-                        <!--                        TODO:change password-->
-                        <input type="submit" class="btn btn-warning fw-bold"
-                               role="button" value="Change password">
-                    </form>
                 </div>
                 <form sec:authorize="hasRole('ADMIN')" th:action="@{/users/change-roles/{id}(id=${id})}"
                       th:method="PATCH" th:object="${roleChangeBindingModel}">

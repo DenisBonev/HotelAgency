@@ -20,7 +20,7 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
 
-    public HotelServiceImpl(HotelRepository hotelRepository, ModelMapper modelMapper, UserService userService) {
+    public HotelServiceImpl(HotelRepository hotelRepository, ModelMapper modelMapper) {
         this.hotelRepository = hotelRepository;
         this.modelMapper = modelMapper;
     }

@@ -1,6 +1,5 @@
 package bg.softuni.hotelagency.service.impl;
 
-import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.UserRole;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.repository.UserRoleRepository;

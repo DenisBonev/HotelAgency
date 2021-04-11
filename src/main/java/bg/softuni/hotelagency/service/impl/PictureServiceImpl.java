@@ -27,17 +27,19 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public void uploadHotelImages(List<MultipartFile> pictures, Long hotelId) {
+    public void uploadHotelImages(List<MultipartFile> pictures, Long hotelId){
 
         Hotel hotel = hotelService.getHotelById(hotelId);
 
         pictures.forEach(p -> {
+            String url = null;
             try {
-                String url = cloudinaryService.uploadImage(p);
-                pictureRepository.save(new Picture().setUrl(url).setHotel(hotel));
+                url = cloudinaryService.uploadImage(p);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            pictureRepository.save(new Picture().setUrl(url).setHotel(hotel));
+
         });
     }
 
@@ -48,9 +50,9 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public void deleteByUrl(String url) throws IOException {
-        cloudinaryService.deleteByUrl(url);
         pictureRepository.delete(pictureRepository.findPictureByUrl(url).
                 orElseThrow(()->new EntityNotFoundException("Picture")));
+        cloudinaryService.deleteByUrl(url);
     }
 
 }

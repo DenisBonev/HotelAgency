@@ -51,7 +51,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Long patchChanges(RoomServiceModel roomServiceModel) {
-        Room room = roomRepository.findById(roomServiceModel.getId()).orElseThrow(() -> new EntityNotFoundException("Room"));
+        Room room = roomRepository.findById(roomServiceModel.getId()).
+                orElseThrow(() -> new EntityNotFoundException("Room"));
         roomServiceModel.setHotel(room.getHotel());
         modelMapper.map(roomServiceModel, room);
         roomRepository.save(room);

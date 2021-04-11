@@ -5,7 +5,7 @@ import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_role")
+@Table(name = "roles")
 public class UserRole extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
