@@ -18,7 +18,6 @@ public class UserRegisterBindingModel {
     private String lastName;
     @NotEmpty(message = "Field must be filled")
     @Email
-    //TODO:regex pattern(one more in hotel)
     private String email;
     @Past
     @IsAdult

@@ -13,7 +13,6 @@ public class UserEditBindingModel {
     private String lastName;
     @NotEmpty(message = "Field must be filled")
     @Email
-    //TODO:regex pattern(one more in hotel)
     private String email;
     @NotEmpty(message = "Field must be filled")
     @Pattern(regexp = "\\+*[0-9]{10,12}")
