@@ -20,6 +20,6 @@ public class DBInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         userRoleService.populateRoles();
-        userService.populateAdmin();
+        userService.populateInitialUsers();
     }
 }

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void populateAdmin() {
+    public void populateInitialUsers() {
         if (userRepository.count() == 0) {
             User admin = new User().
                     setFirstName("Admin").
@@ -52,7 +52,15 @@ public class UserServiceImpl implements UserService {
                             userRoleRepository.getUserRoleByName(RoleEnum.ADMIN).orElseThrow(() -> new EntityNotFoundException("UserRole")),
                             userRoleRepository.getUserRoleByName(RoleEnum.USER).orElseThrow(() -> new EntityNotFoundException("UserRole"))
                     ));
-            userRepository.save(admin);
+            User anonymous = new User().
+                    setFirstName("Unknown").
+                    setLastName("Unknown").
+                    setEmail("unknown@abv.bg").
+                    setPassword(passwordEncoder.encode("topsecret")).
+                    setProfilePicture(Constants.DEFAULT_PROFILE_PICTURE).
+                    setRoles(List.of(
+                    ));
+            userRepository.saveAll(List.of(admin,anonymous));
         }
     }
 

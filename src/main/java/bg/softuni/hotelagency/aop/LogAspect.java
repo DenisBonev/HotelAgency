@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -27,11 +26,9 @@ public class LogAspect {
     }
 
     @Async
-    @AfterThrowing(pointcut = "execution(* bg.softuni.hotelagency..service..*(..))", throwing = "ex")
+    @AfterThrowing(pointcut = "execution(* bg.softuni.hotelagency.service..*(..))", throwing = "ex")
     public void exceptionThrownAspect(JoinPoint joinPoint, Throwable ex) {
         String action = joinPoint.getSignature().getName();
         logService.createLog(action, ex.getClass().getSimpleName());
     }
-
-
 }

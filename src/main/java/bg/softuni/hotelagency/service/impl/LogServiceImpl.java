@@ -1,6 +1,7 @@
 package bg.softuni.hotelagency.service.impl;
 
 import bg.softuni.hotelagency.model.entity.Log;
+import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.repository.LogRepository;
 import bg.softuni.hotelagency.service.LogService;
 import bg.softuni.hotelagency.service.UserService;
@@ -27,11 +28,17 @@ public class LogServiceImpl implements LogService {
         Authentication principal = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
+        User user;
+        if (principal == null) {
+            user = userService.getUserByEmail("unknown@abv.bg");
+        } else {
+            user = userService.getUserByEmail(principal.getName());
+        }
         Log log = new Log().
                 setException(exception).
                 setAction(action).
                 setDateTime(LocalDateTime.now()).
-                setUser(userService.getUserByEmail(principal.getName()));
+                setUser(user);
         logRepository.save(log);
     }
 

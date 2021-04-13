@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-    void populateAdmin();
+    void populateInitialUsers();
 
     Long registerUser(UserServiceModel userServiceModel) throws IOException;
 
