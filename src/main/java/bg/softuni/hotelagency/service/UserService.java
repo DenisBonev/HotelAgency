@@ -27,4 +27,6 @@ public interface UserService {
     List<UserRoleViewModel> getAllUsers();
 
     void setUserRoles(Long userId, List<RoleEnum> roles);
+
+    String getUserProfilePicture(String username);
 }

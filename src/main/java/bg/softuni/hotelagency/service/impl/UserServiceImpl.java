@@ -156,4 +156,12 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList()));
         userRepository.save(user);
     }
+
+    @Override
+    public String getUserProfilePicture(String email) {
+        return userRepository.
+                findUserByEmail(email).
+                orElseThrow(()->new EntityNotFoundException("User")).
+                getProfilePicture();
+    }
 }
