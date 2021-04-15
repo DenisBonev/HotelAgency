@@ -18,6 +18,15 @@
                         <img th:src="@{${p}}"
                              class="d-block w-100" alt="...">
                     </div>
+                    <div th:if="${hotel.videoUrl!=null}" class="carousel-item ">
+                        <div class="col-md-6 bg-transparent rounded">
+                            <div class="rounded embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" width="680px" height="480px"
+                                        th:src="'https://www.youtube.com/embed/'+${hotel.videoUrl}+'?controls=0'"
+                                        allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                         data-bs-slide="prev">
@@ -50,7 +59,8 @@
                 </dl>
                 <div>
                     <div th:if="${isOwner}" class="d-grid gap-2 d-md-block">
-                        <a class="btn btn-success fw-bold" th:href="@{/hotels/rooms/manage/{id}(id=${id})}" role="button">Manage
+                        <a class="btn btn-success fw-bold" th:href="@{/hotels/rooms/manage/{id}(id=${id})}"
+                           role="button">Manage
                             Rooms</a>
                         <a class="btn btn-warning fw-bold" th:href="@{/hotels/edit/{id}(id=${id})}"
                            role="button">Edit Hotel</a>

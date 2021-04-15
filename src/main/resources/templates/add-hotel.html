@@ -70,13 +70,23 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group mb-3">
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="videoUrl" class="text-white font-weight-bold">YouTube Video</label>
+                            <input id="videoUrl" type="text" class="form-control" th:field="*{videoUrl}"
+                                   th:errorclass="is-invalid"
+                                   minlength="5" maxlength="50"
+                                   placeholder="watch?v={YOUR CODE}"/>
+                            <p class="errors alert alert-danger invalid-feedback">
+                                Video url is not valid
+                            </p>
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
                             <label for="address" class="text-white font-weight-bold">Your hotel's address</label>
                             <input id="address" type="text" class="form-control" th:field="*{address}"
                                    th:errorclass="is-invalid"
                                    required
                                    minlength="5" maxlength="50"
-                                   placeholder="Address"/>
+                                   placeholder="ex. Country, City, Street..."/>
                             <p class="errors alert alert-danger invalid-feedback">
                                 Hotel address must be valid.
                             </p>

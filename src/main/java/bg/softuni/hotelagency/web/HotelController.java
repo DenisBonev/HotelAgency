@@ -84,6 +84,9 @@ public class HotelController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.hotelCreateBindingModel", bindingResult);
             return "redirect:/hotels/create";
         }
+        if (hotelCreateBindingModel.getVideoUrl().length()==0){
+            hotelCreateBindingModel.setVideoUrl(null);
+        }
         HotelServiceModel hotelServiceModel = modelMapper.map(hotelCreateBindingModel, HotelServiceModel.class);
         setStarEnum(hotelCreateBindingModel.getStars(), hotelServiceModel);
         hotelServiceModel.setOwner(userService.getUserByEmail(principal.getUsername()));
@@ -216,6 +219,9 @@ public class HotelController {
             return "redirect:/hotels/edit/" + id;
         }
 
+        if (hotelEditBindingModel.getVideoUrl().length()==0){
+            hotelEditBindingModel.setVideoUrl(null);
+        }
         HotelServiceModel hotelServiceModel = modelMapper.map(hotelEditBindingModel, HotelServiceModel.class).
                 setId(id);
         setStarEnum(hotelEditBindingModel.getStars(), hotelServiceModel);

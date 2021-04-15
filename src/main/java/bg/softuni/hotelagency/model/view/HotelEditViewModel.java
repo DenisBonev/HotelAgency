@@ -10,6 +10,7 @@ public class HotelEditViewModel {
     private String address;
     private String email;
     private String description;
+    private String videoUrl;
     private List<String> imageUrls;
 
     public HotelEditViewModel() {
@@ -58,6 +59,14 @@ public class HotelEditViewModel {
     public HotelEditViewModel setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public List<String> getImageUrls() {

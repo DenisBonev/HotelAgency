@@ -19,6 +19,7 @@ public class Hotel extends BaseEntity {
     private String email;
     @Column(columnDefinition = "TEXT")
     private String description;
+    private String videoUrl;
     @ManyToOne
     private User owner;
 
@@ -70,6 +71,14 @@ public class Hotel extends BaseEntity {
     public Hotel setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public User getOwner() {

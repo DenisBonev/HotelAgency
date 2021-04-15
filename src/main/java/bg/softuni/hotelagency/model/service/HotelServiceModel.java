@@ -12,6 +12,7 @@ public class HotelServiceModel {
     private StarEnum stars;
     private String email;
     private String description;
+    private String videoUrl;
     private User owner;
 
     public HotelServiceModel() {
@@ -69,6 +70,14 @@ public class HotelServiceModel {
     public HotelServiceModel setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public User getOwner() {

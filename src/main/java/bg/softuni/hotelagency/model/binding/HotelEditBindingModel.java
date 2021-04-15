@@ -2,10 +2,7 @@ package bg.softuni.hotelagency.model.binding;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class HotelEditBindingModel {
@@ -22,6 +19,8 @@ public class HotelEditBindingModel {
     @NotBlank(message = "Field cannot be blank")
     @Size(min = 15,max = 500,message = "Length must be between 15 and 500 characters")
     private String description;
+    @Size(min = 0,max = 50)
+    private String videoUrl;
     @NotNull(message = "Field cannot be blank")
     private List<MultipartFile> pictures;
 
@@ -71,6 +70,14 @@ public class HotelEditBindingModel {
     public HotelEditBindingModel setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public List<MultipartFile> getPictures() {

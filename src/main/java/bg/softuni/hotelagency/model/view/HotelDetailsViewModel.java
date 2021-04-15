@@ -10,6 +10,7 @@ public class HotelDetailsViewModel {
     private StarEnum stars;
     private String email;
     private String description;
+    private String videoUrl;
     private String mainPictureUrl;
     private List<String> pictureUrls;
 
@@ -50,6 +51,14 @@ public class HotelDetailsViewModel {
     public HotelDetailsViewModel setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public String getDescription() {

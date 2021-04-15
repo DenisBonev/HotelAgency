@@ -20,6 +20,8 @@ public class HotelCreateBindingModel {
     @NotBlank(message = "Field cannot be blank")
     @Size(min = 15,max = 500,message = "Length must be between 15 and 500 characters")
     private String description;
+    @Size(min = 0,max = 50)
+    private String videoUrl;
     @NotNull(message = "Field cannot be blank")
     private List<MultipartFile> pictures;
 
@@ -69,6 +71,14 @@ public class HotelCreateBindingModel {
     public HotelCreateBindingModel setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public List<MultipartFile> getPictures() {

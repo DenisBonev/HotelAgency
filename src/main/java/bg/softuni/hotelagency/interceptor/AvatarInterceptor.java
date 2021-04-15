@@ -29,7 +29,7 @@ public class AvatarInterceptor implements HandlerInterceptor{
 
     private void addToModelUserDetails(ModelAndView model) {
 //        log.info("=============== addToModelUserDetails =========================");
-
+//TODO:Logging(optional)
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getName();
         model.addObject("avatar", userService.getUserProfilePicture(username));

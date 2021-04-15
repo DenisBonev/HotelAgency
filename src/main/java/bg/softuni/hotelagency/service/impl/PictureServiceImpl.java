@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class PictureServiceImpl implements PictureService {
     public void uploadHotelImages(List<MultipartFile> pictures, Long hotelId){
 
         Hotel hotel = hotelService.getHotelById(hotelId);
+        Collections.reverse(pictures);
 
         pictures.forEach(p -> {
             String url = null;
