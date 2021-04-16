@@ -1,4 +1,4 @@
-package bg.softuni.hotelagency.service.impl;
+package bg.softuni.hotelagency.service;
 
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.exception.EntityNotFoundException;

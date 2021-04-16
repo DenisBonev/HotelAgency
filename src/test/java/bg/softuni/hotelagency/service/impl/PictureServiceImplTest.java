@@ -13,6 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +29,7 @@ import static org.mockito.Mockito.when;
 public class PictureServiceImplTest {
 
     private PictureServiceImpl serviceToTest;
+    private Picture picture1, picture2;
 
 
     @Mock
@@ -37,6 +41,17 @@ public class PictureServiceImplTest {
 
     @BeforeEach
     public void setUp() {
+        String url1 = "/test/url1";
+        String url2 = "/test/url2";
+        picture1 = new Picture();
+        picture1.
+                setUrl(url1).
+                setId(1L);
+        picture2 = new Picture();
+        picture2.
+                setUrl(url2).
+                setId(2L);
+
         serviceToTest = new PictureServiceImpl(cloudinaryService, pictureRepository, hotelService);
     }
 
@@ -73,4 +88,17 @@ public class PictureServiceImplTest {
 
         assertThrows(EntityNotFoundException.class, () -> serviceToTest.deleteByUrl(fakeUrl));
     }
+
+    @Test
+    public void testDeleteByUrl() throws IOException {
+        String url = picture1.getUrl();
+        when(pictureRepository.findPictureByUrl(url))
+                .thenReturn(Optional.of(picture1));
+
+        serviceToTest.deleteByUrl(url);
+
+        Mockito.verify(pictureRepository).delete(picture1);
+        Mockito.verify(cloudinaryService).deleteByUrl(url);
+    }
+
 }

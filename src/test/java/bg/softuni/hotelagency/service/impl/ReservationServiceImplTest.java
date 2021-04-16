@@ -5,6 +5,7 @@ import bg.softuni.hotelagency.model.entity.Reservation;
 import bg.softuni.hotelagency.model.entity.Room;
 import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.enums.RoomTypeEnum;
+import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
 import bg.softuni.hotelagency.model.service.ReservationServiceModel;
 import bg.softuni.hotelagency.repository.ReservationRepository;
 import bg.softuni.hotelagency.service.RoomService;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
@@ -19,8 +21,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -164,6 +168,23 @@ public class ReservationServiceImplTest {
         assertEquals(reservationRoom3.getUser().getEmail(), reservationServiceModels.get(2).getUser().getEmail());
         assertEquals(reservationRoom3.getArriveDate(), reservationServiceModels.get(2).getArriveDate());
         assertEquals(reservationRoom3.getLeaveDate(), reservationServiceModels.get(2).getLeaveDate());
+    }
+
+    @Test
+    public void testDeleteReservation(){
+        when(reservationRepository.findById(reservationRoom1.getId()))
+                .thenReturn(Optional.of(reservationRoom1));
+
+        serviceToTest.deleteReservation(reservationRoom1.getId());
+
+        Mockito.verify(reservationRepository).delete(reservationRoom1);
+    }
+    @Test
+    public void testDeleteReservationFail(){
+        when(reservationRepository.findById(999L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class,()->serviceToTest.deleteReservation(999L));
     }
 
 }

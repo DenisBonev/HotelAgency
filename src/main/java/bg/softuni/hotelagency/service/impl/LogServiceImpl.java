@@ -34,7 +34,7 @@ public class LogServiceImpl implements LogService {
                 .getAuthentication();
         User user;
         if (principal == null) {
-            user = userService.getUserByEmail("unknown@abv.bg");
+            user = null;
         } else {
             user = userService.getUserByEmail(principal.getName());
         }
@@ -77,19 +77,6 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public Map<String, Integer> getRegisterStats() {
-        List<Log> logs = logRepository.
-                getLogsByExceptionIsNull();
-        return mapStats(logs);
-    }
-
-
-    @Override
-    public Map<String, Integer> getExceptionsThrownStats() {
-        List<Log> logs = logRepository.getLogsByExceptionNotNull();
-        return mapStats(logs);
-    }
-
-    private Map<String,Integer> mapStats(List<Log> logs) {
         Map<String, Integer> stats = new HashMap<>();
         stats.put(DayOfWeek.MONDAY.toString().toLowerCase(Locale.ROOT), 0);
         stats.put(DayOfWeek.TUESDAY.toString().toLowerCase(Locale.ROOT), 0);
@@ -98,6 +85,9 @@ public class LogServiceImpl implements LogService {
         stats.put(DayOfWeek.FRIDAY.toString().toLowerCase(Locale.ROOT), 0);
         stats.put(DayOfWeek.SATURDAY.toString().toLowerCase(Locale.ROOT), 0);
         stats.put(DayOfWeek.SUNDAY.toString().toLowerCase(Locale.ROOT), 0);
+
+        List<Log> logs = logRepository.
+                getLogsByExceptionIsNull();
 
         for (Log l : logs) {
             switch (l.getDateTime().getDayOfWeek()) {
@@ -133,4 +123,5 @@ public class LogServiceImpl implements LogService {
         }
         return stats;
     }
+
 }

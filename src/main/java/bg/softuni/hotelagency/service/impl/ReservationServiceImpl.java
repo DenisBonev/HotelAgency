@@ -50,7 +50,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservation(Long id) {
         reservationRepository.
-                delete(reservationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation")));
+                delete(reservationRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Reservation")));
     }
 
     @Override

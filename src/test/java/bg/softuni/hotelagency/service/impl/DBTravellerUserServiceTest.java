@@ -4,6 +4,7 @@ import bg.softuni.hotelagency.model.entity.User;
 import bg.softuni.hotelagency.model.entity.UserRole;
 import bg.softuni.hotelagency.model.entity.enums.RoleEnum;
 import bg.softuni.hotelagency.repository.UserRepository;
+import bg.softuni.hotelagency.service.DBTravellerUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

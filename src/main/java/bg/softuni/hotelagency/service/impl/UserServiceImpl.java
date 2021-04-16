@@ -60,14 +60,14 @@ public class UserServiceImpl implements UserService {
                     setProfilePicture(Constants.DEFAULT_PROFILE_PICTURE).
                     setRoles(List.of(
                     ));
-            userRepository.saveAll(List.of(admin,anonymous));
+            userRepository.saveAll(List.of(admin, anonymous));
         }
     }
 
     @Override
     public Long registerUser(UserServiceModel userServiceModel) throws IOException {
         User user = modelMapper.map(userServiceModel, User.class);
-        if (!userServiceModel.getProfilePicture().isEmpty()) {
+        if (userServiceModel.getProfilePicture()!=null && !userServiceModel.getProfilePicture().isEmpty()) {
             user.setProfilePicture(cloudinaryService.
                     uploadImage(userServiceModel.
                             getProfilePicture()));
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
                     getUserRoleByName(RoleEnum.USER).
                     orElseThrow(() -> new EntityNotFoundException("UserRole"))));
         }
-       return userRepository.save(user).getId();
+        return userRepository.save(user).getId();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<ReservationServiceModel> getUserReservationsByEmail(String email) {
         return reservationService.getReservationsByUser(userRepository.findUserByEmail(email).
-                orElseThrow(()->new EntityNotFoundException("User")));
+                orElseThrow(() -> new EntityNotFoundException("User")));
     }
 
     @Override
@@ -118,9 +118,11 @@ public class UserServiceImpl implements UserService {
                 setFirstName(userServiceModel.getFirstName()).
                 setLastName(userServiceModel.getLastName()).
                 setPhoneNumber(userServiceModel.getPhoneNumber());
-        if (!"".equals(userServiceModel.getProfilePicture().getOriginalFilename())) {
-            cloudinaryService.deleteByUrl(user.getProfilePicture());
-            user.setProfilePicture(cloudinaryService.uploadImage(userServiceModel.getProfilePicture()));
+        if (userServiceModel.getProfilePicture() != null) {
+            if (!"".equals(userServiceModel.getProfilePicture().getOriginalFilename())) {
+                cloudinaryService.deleteByUrl(user.getProfilePicture());
+                user.setProfilePicture(cloudinaryService.uploadImage(userServiceModel.getProfilePicture()));
+            }
         }
         userRepository.save(user);
     }
@@ -161,7 +163,7 @@ public class UserServiceImpl implements UserService {
     public String getUserProfilePicture(String email) {
         return userRepository.
                 findUserByEmail(email).
-                orElseThrow(()->new EntityNotFoundException("User")).
+                orElseThrow(() -> new EntityNotFoundException("User")).
                 getProfilePicture();
     }
 }

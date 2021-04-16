@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
@@ -23,12 +24,31 @@ import static org.mockito.Mockito.when;
 public class CommentServiceImplTest {
 
     private CommentServiceImpl serviceToTest;
+    private UserRole roleUser;
+    private User mockUser;
+    private Hotel mockHotel;
 
     @Mock
     CommentRepository mockCommentRepository;
 
     @BeforeEach
     public void setUp() {
+        roleUser = new UserRole();
+        roleUser.setName(RoleEnum.USER);
+        UserRole roleOwner = new UserRole();
+        roleOwner.setName(RoleEnum.HOTEL_OWNER);
+
+        mockUser = new User();
+        mockUser.setEmail("test@test");
+        mockUser.setFirstName("Peter");
+        mockUser.setLastName("Petrov");
+        mockUser.setRoles(List.of(roleUser, roleOwner));
+
+        mockHotel = new Hotel();
+        mockHotel.setName("testHotel");
+        mockHotel.setEmail("testHotel");
+        mockHotel.setOwner(mockUser);
+
         serviceToTest = new CommentServiceImpl(mockCommentRepository, new ModelMapper());
     }
 
@@ -64,5 +84,4 @@ public class CommentServiceImplTest {
         assertEquals(mockComment.getContent(), commentServiceModels.get(0).getContent());
         assertEquals(mockComment.getUser().getEmail(), commentServiceModels.get(0).getUser().getEmail());
     }
-
 }

@@ -123,3 +123,23 @@ body, html {
     height: 50px;
     border-radius: 50%;
 }
+
+#shiva
+{
+    margin: auto;
+    width: 100%;
+    height: 100px;
+    alignment: center;
+   justify-self: center;
+    background: #F5B7B1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.count{
+    line-height: 100px;
+    color:white;
+    font-size:40px;
+}

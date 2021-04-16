@@ -1,6 +1,5 @@
 package bg.softuni.hotelagency.service.impl;
 
-import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.entity.Room;
 import bg.softuni.hotelagency.model.exception.EntityNotFoundException;
 import bg.softuni.hotelagency.model.service.RoomServiceModel;

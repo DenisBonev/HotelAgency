@@ -1,5 +1,6 @@
 package bg.softuni.hotelagency.service;
 
+import bg.softuni.hotelagency.model.entity.Comment;
 import bg.softuni.hotelagency.model.entity.Hotel;
 import bg.softuni.hotelagency.model.service.CommentServiceModel;
 

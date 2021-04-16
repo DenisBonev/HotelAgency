@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void addComment(CommentServiceModel commentServiceModel) {
-        commentRepository.save(modelMapper.map(commentServiceModel, Comment.class));
+         commentRepository.save(modelMapper.map(commentServiceModel, Comment.class));
     }
 
     @Override

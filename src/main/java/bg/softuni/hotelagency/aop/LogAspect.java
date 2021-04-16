@@ -26,7 +26,7 @@ public class LogAspect {
     }
 
     @Async
-    @AfterThrowing(pointcut = "execution(* bg.softuni.hotelagency.service..*(..))", throwing = "ex")
+    @AfterThrowing(pointcut = "execution(* bg.softuni.hotelagency.service.impl..*(..))", throwing = "ex")
     public void exceptionThrownAspect(JoinPoint joinPoint, Throwable ex) {
         String action = joinPoint.getSignature().getName();
         logService.createLog(action, ex.getClass().getSimpleName());

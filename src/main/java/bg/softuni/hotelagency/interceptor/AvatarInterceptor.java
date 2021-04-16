@@ -3,7 +3,6 @@ package bg.softuni.hotelagency.interceptor;
 import bg.softuni.hotelagency.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.SmartView;
@@ -28,14 +27,11 @@ public class AvatarInterceptor implements HandlerInterceptor{
     }
 
     private void addToModelUserDetails(ModelAndView model) {
-//        log.info("=============== addToModelUserDetails =========================");
-//TODO:Logging(optional)
+
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getName();
         model.addObject("avatar", userService.getUserProfilePicture(username));
 
-//        log.trace("session : " + model.getModel());
-//        log.info("=============== addToModelUserDetails =========================");
     }
 
     public static boolean isRedirectView(ModelAndView mv) {

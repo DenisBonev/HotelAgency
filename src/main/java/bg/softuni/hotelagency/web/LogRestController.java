@@ -20,8 +20,5 @@ public class LogRestController {
     public ResponseEntity<Map<String,Integer>> getRegisteredUsers(){
        return ResponseEntity.ok().body(logService.getRegisterStats());
     }
-    @GetMapping("/stats/exceptions")
-    public ResponseEntity<Map<String,Integer>> getExceptionThrown(){
-       return ResponseEntity.ok().body(logService.getExceptionsThrownStats());
-    }
+
 }

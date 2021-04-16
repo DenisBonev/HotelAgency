@@ -21,5 +21,4 @@ public interface LogService {
 
     Map<String,Integer> getRegisterStats();
 
-    Map<String,Integer> getExceptionsThrownStats();
 }
