@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="form-group col-md-4 mb-3">
                             <label for="roomType" class="text-white font-weight-bold">Room Type</label>
-                            <select id="roomType" th:field="*{type}" th:errorclass="is-invalid" class="form-control">
+                            <select id="roomType" required th:field="*{type}" th:errorclass="is-invalid" class="form-control">
                                 <option selected value="">- Choose room type -</option>
                                 <option th:each="s:${T(bg.softuni.hotelagency.model.entity.enums.RoomTypeEnum).values()}"
                                         th:value="${s}"
@@ -39,7 +39,7 @@
                             <label for="specialName" class="text-white font-weight-bold">Special name of this
                                 room</label>
                             <input id="specialName" th:field="*{name}" th:errorclass="is-invalid" type="text"
-                                   class="form-control"
+                                   class="form-control" required
                                    minlength="3" maxlength="20"
                                    placeholder="Name"/>
                             <p class="errors alert alert-danger invalid-feedback">
@@ -49,8 +49,8 @@
                         <div class="form-group col-md-4 mb-3">
                             <label for="price" class="text-white font-weight-bold">Price for this room</label>
                             <input id="price" th:field="*{price}" th:errorclass="is-invalid" type="number"
-                                   class="form-control"
-                                   min="5" max="1000" step="10"
+                                   class="form-control" required
+                                   min="10" max="1000" step="10"
                                    placeholder="Price"/>
                             <p class="errors alert alert-danger invalid-feedback">
                                 Price must be positive.
@@ -63,7 +63,7 @@
                             <label for="singleBedsCount" class="text-white font-weight-bold">Number of single beds in
                                 the room</label>
                             <input id="singleBedsCount" th:field="*{singleBedsCount}" th:errorclass="is-invalid"
-                                   type="number" min="0" max="20"
+                                   type="number" min="0" max="20" required
                                    class="form-control"
                                    placeholder="0-10"/>
                             <p class="errors alert alert-danger invalid-feedback">
@@ -75,7 +75,7 @@
                             <label for="doubleBedsCount" class="text-white font-weight-bold">Number of double beds in
                                 the room</label>
                             <input id="doubleBedsCount" th:field="*{twinBedsCount}" th:errorclass="is-invalid"
-                                   type="number" min="0" max="20"
+                                   type="number" min="0" max="20" required
                                    class="form-control"
                                    placeholder="0-10"/>
                             <p class="errors alert alert-danger invalid-feedback">
@@ -86,7 +86,7 @@
                             <label for="roomCount" class="text-white font-weight-bold">Number of rooms of this
                                 type</label>
                             <input type="number" th:errorclass="is-invalid" th:field="*{count}"
-                                   id="roomCount" name="count" class="form-control" min="1" max="200"
+                                   id="roomCount" name="count" class="form-control" min="1" max="200" required
                                    placeholder="Number of rooms">
                             <p class="errors alert alert-danger invalid-feedback">
                                 You should have at least one room.

@@ -28,11 +28,10 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public void uploadHotelImages(List<MultipartFile> pictures, Long hotelId){
+    public void uploadHotelImages(List<MultipartFile> pictures, Long hotelId) {
 
         Hotel hotel = hotelService.getHotelById(hotelId);
         Collections.reverse(pictures);
-
         pictures.forEach(p -> {
             String url = null;
             try {
@@ -53,7 +52,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public void deleteByUrl(String url) throws IOException {
         pictureRepository.delete(pictureRepository.findPictureByUrl(url).
-                orElseThrow(()->new EntityNotFoundException("Picture")));
+                orElseThrow(() -> new EntityNotFoundException("Picture")));
         cloudinaryService.deleteByUrl(url);
     }
 

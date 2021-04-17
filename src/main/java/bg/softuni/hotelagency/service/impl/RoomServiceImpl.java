@@ -34,7 +34,6 @@ public class RoomServiceImpl implements RoomService {
                 stream().
                 map(r -> modelMapper.map(r, RoomServiceModel.class)).
                 collect(Collectors.toList());
-
     }
 
     @Override
